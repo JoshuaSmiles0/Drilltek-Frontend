@@ -40,7 +40,7 @@ const hideLogin = () => {
                         </div>
                     </div>
                     <div class="modal-card-body">
-                        <form method="post" action="">
+                        <form method="post" action="?/checkUser">
                             <div class="field">
                             <label class="label" for="email">Email</label>
                             <div class="control has-icons-left">
