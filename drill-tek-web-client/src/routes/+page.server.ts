@@ -20,4 +20,12 @@ export const actions = {
         }
     },
 
+    changePassword: async({request}) => {
+
+    },
+
+    login: async({request}) => {
+
+    },
+
 }
