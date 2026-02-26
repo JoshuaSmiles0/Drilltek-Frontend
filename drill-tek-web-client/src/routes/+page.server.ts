@@ -1,4 +1,3 @@
-import { browser, dev } from "$app/environment";
 import { redirect } from "@sveltejs/kit";
 import { drilltekService } from "$lib/services/drilltek-service";
 
