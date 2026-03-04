@@ -1,4 +1,4 @@
-import type { Session } from "$lib/types/drilltek-types";
+import type { Session, DrillProgram } from "$lib/types/drilltek-types"
 import axios from "axios";
 
 export const drilltekService = {
@@ -54,8 +54,8 @@ export const drilltekService = {
     },
 
     async login(email:string | null, password:string): Promise<Session | null> {
-        const response = await axios.post(`${this.baseUrl}user/login`, {"email":email, "password":password})
         try {
+        const response = await axios.post(`${this.baseUrl}user/login`, {"email":email, "password":password})
         if (response.status === 200) {
              axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.access;
              const session: Session = {
@@ -75,4 +75,33 @@ export const drilltekService = {
         }
 
     },
+
+    async refreshToken(token:string|null): Promise<string|null> {
+        try {
+            const response = await axios.post(`${this.baseUrl}token/refresh`, {"refresh":token})
+            if (response.status ===200) {
+                return response.data.access
+            }
+            else {
+                return null
+            }
+        }
+        catch(error){
+            console.log(error)
+            return null
+        }
+
+    },
+
+    async getPrograms(token:string): Promise<DrillProgram[]> {
+        try {
+            axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+            const response = await axios.get(`${this.baseUrl}drillProgram/getPrograms`)
+            return response.data.data as DrillProgram[]
+        }
+        catch(error){
+            console.log(error)
+            return []
+        }
+    }
 }
