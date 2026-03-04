@@ -1,5 +1,5 @@
 import type { Session, DrillProgram } from "$lib/types/drilltek-types"
-import axios, { Axios } from "axios";
+import axios from "axios";
 
 export const drilltekService = {
 
@@ -93,7 +93,7 @@ export const drilltekService = {
 
     },
 
-    async getPrograms(token:string): Promise<DrillProgram[]|string> {
+    async getPrograms(token:string): Promise<DrillProgram[]> {
         try {
             axios.defaults.headers.common["Authorization"] = "Bearer " +token;
             const response = await axios.get(`${this.baseUrl}drillProgram/getPrograms`)

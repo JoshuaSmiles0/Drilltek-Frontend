@@ -1,10 +1,6 @@
 <script lang="ts">
-	import type { DrillProgram } from "$lib/types/drilltek-types";
-
-
 
     export let data
-
 
 </script>
 
