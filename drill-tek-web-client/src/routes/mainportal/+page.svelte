@@ -29,7 +29,7 @@
      <p class="title is-4">Proceed to the drilling portal to manage drill programs and drill holes </p>
     </div>
     <div class="card-footer p-4">
-        <button class="button is-success">Enter</button>
+        <button class="button is-success"><a href="/drillingportal">Enter</a></button>
     </div>
 
     </div>

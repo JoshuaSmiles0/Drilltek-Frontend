@@ -5,6 +5,7 @@ export const load: LayoutServerLoad = ({ cookies }) => {
   const cookieStr = cookies.get("drilltekUser") as string;
   if (cookieStr) {
     const session = JSON.parse(cookieStr) as Session;
+    console.log(session)
     return {
       session: session
     };
