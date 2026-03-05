@@ -21,3 +21,7 @@ const { session } = await parent();
   else {
     redirect(302,"/")
   }}
+
+  export const actions = {
+    
+  }
