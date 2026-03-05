@@ -1,4 +1,4 @@
-import type { Session, DrillProgram } from "$lib/types/drilltek-types"
+import type { Session, DrillProgram, AddProgram } from "$lib/types/drilltek-types"
 import axios from "axios";
 
 export const drilltekService = {
@@ -103,6 +103,32 @@ export const drilltekService = {
         catch(error){
             console.log(error)
             return []
+        }
+    },
+
+    async createDrillProgram(token:string, program:AddProgram) {
+        try {
+             axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+             const response = await axios.post(`${this.baseUrl}drillProgram/createProgram`,{
+                 "programid":program.programid,
+                 "orebody":program.orebody,
+                 "location":program.location,
+                 "target":program.target,
+                 "totalholes":program.totalholes,
+                 "totalmeters":program.totalmeters,
+                 "userid":program.userid
+             })
+             console.log(`${program.programid} added`)
+             return response.status
+        }
+        catch(error: any) {
+            console.log(error)
+            if(error.response.status) {
+            return error.response.status
+            }
+            else {
+                return 500
+            }
         }
     }
 }

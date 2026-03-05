@@ -19,3 +19,13 @@ export interface DrillProgram {
     dateupdated: Date
 }
 
+export interface AddProgram {
+     programid : string,
+    orebody : string,
+    location: string,
+    target: string,
+    totalholes: number,
+    totalmeters: number,
+    userid: number,
+}
+

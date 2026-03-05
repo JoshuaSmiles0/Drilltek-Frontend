@@ -2,6 +2,7 @@ import { dev } from "$app/environment";
 import axios from "axios";
 import { drilltekService } from "./drilltek-service"
 import type { Cookies } from "@sveltejs/kit"
+import type { Session } from "$lib/types/drilltek-types";
 
 export async function refresh(token:string|null, cookies:Cookies) {
 try {
@@ -19,15 +20,15 @@ try {
                   secure: !dev,
                   maxAge: 60 * 60 * 24 * 7 // one week
                         });
-        return true
+        return cookieDetails as Session
     }
     else {
-        return false
+        return null
     }}
     else {
-        return false
+        return null
     }}
     catch(error) {
         console.log(error)
-        return false
+        return null
     }}
