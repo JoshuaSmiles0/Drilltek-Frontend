@@ -2,6 +2,7 @@
 import Banner from '$lib/ui/banner.svelte';
 	import ProgramForm from '$lib/ui/programForm.svelte';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let { data }: any = $props();
 
 let addProgramModal = $state(false)

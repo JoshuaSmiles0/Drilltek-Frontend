@@ -121,6 +121,7 @@ export const drilltekService = {
              console.log(`${program.programid} added`)
              return response.status
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         catch(error: any) {
             console.log(error)
             if(error.response.status) {

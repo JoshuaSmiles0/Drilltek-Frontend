@@ -1,5 +1,8 @@
+
 <script lang="ts">
+
     let {title, link, buttonName} = $props()
+    
 </script>
 
 

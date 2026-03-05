@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Banner from "$lib/ui/banner.svelte";
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let { data }: any = $props();
 </script>
 
