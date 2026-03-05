@@ -61,7 +61,8 @@ export const drilltekService = {
              const session: Session = {
                 email: email,
                 accessToken: response.data.access,
-                refreshToken: response.data.refresh
+                refreshToken: response.data.refresh,
+                userid: response.data.userid
              };
              return session
         }

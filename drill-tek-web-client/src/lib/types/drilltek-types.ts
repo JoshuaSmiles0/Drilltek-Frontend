@@ -3,7 +3,8 @@
 export interface Session {
     email : string | null,
     accessToken : string,
-    refreshToken: string
+    refreshToken: string,
+    userid: number
 }
 // type modelled for individual drill program
 export interface DrillProgram {

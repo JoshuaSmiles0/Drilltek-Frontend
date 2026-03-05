@@ -23,5 +23,9 @@ const { session } = await parent();
   }}
 
   export const actions = {
-    
+
+    addProgam: async({request}) => {
+      
+    }
+
   }
