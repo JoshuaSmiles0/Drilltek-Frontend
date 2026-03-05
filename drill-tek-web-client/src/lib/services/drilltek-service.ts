@@ -130,5 +130,20 @@ export const drilltekService = {
                 return 500
             }
         }
+    },
+
+    async getProgramById(token:string, id:string) {
+        try {
+            axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+            const response = await axios.get(`${this.baseUrl}drillProgram/getProgramById`,{
+                params: {programid:id}
+            })
+            console.log(`${id} returned`)
+            return response.data.data as DrillProgram
+        }
+        catch(error){
+            console.log(error)
+            return {}
+        }
     }
 }

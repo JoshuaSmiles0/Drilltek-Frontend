@@ -32,7 +32,7 @@ const hideaddProgram = () => {
             </div>
     </div>        
     <div class="column is-1">
-            <a class="button is-success">Open</a>
+            <a href="/drillprogram/{program.programid}" class="button is-success">Open</a>
         </div>
     </div>
 {/each}
