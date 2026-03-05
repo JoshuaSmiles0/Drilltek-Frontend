@@ -3,7 +3,8 @@
 export interface Session {
     email : string | null,
     accessToken : string,
-    refreshToken: string
+    refreshToken: string,
+    userid: number
 }
 // type modelled for individual drill program
 export interface DrillProgram {
@@ -16,5 +17,15 @@ export interface DrillProgram {
     userid: number,
     dateplanned: Date,
     dateupdated: Date
+}
+
+export interface AddProgram {
+     programid : string,
+    orebody : string,
+    location: string,
+    target: string,
+    totalholes: number,
+    totalmeters: number,
+    userid: number,
 }
 
