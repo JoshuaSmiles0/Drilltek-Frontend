@@ -42,7 +42,7 @@ const { session } = await parent();
             userid:session.userid as number
           }
           const response = await drilltekService.createDrillProgram(session.accessToken,program)
-          if(response === 200) {
+          if(response === 201) {
             return
           }
           else if (response === 401) {

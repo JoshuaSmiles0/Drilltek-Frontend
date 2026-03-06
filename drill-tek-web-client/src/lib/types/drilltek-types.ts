@@ -6,26 +6,22 @@ export interface Session {
     refreshToken: string,
     userid: number
 }
-// type modelled for individual drill program
-export interface DrillProgram {
-    programid : string,
+
+export interface editProgram {
     orebody : string,
     location: string,
     target: string,
+}
+
+export interface AddProgram extends editProgram {
+    programid : string,
     totalholes: number,
     totalmeters: number,
     userid: number,
+}
+
+// type modelled for individual drill program
+export interface DrillProgram extends AddProgram {
     dateplanned: Date,
     dateupdated: Date
 }
-
-export interface AddProgram {
-     programid : string,
-    orebody : string,
-    location: string,
-    target: string,
-    totalholes: number,
-    totalmeters: number,
-    userid: number,
-}
-

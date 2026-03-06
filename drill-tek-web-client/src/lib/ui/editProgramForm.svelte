@@ -6,17 +6,6 @@
  </script>                        
                          
                          
-                         
-                         <div class="field">
-                            <label class="label" for="programid">Program Id</label>
-                            <div class="control has-icons-left">
-                                <input id="programid" class="input" name="programid" type="text" placeholder="Program Id" value={program.programid} >
-                                <span class="icon is-small is-left">
-                                  <i class="fas fa-solid fa-address-card"></i>
-                                </span>
-                                </div>
-                            </div>
-
 <div class="field">
                             <label class="label" for="orebody">Orebody</label>
                             <div class="control has-icons-left">
