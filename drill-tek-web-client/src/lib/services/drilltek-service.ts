@@ -1,4 +1,4 @@
-import type { Session, DrillProgram, AddProgram } from "$lib/types/drilltek-types"
+import type { Session, DrillProgram, AddProgram, editProgram } from "$lib/types/drilltek-types"
 import axios from "axios";
 
 export const drilltekService = {
@@ -146,5 +146,32 @@ export const drilltekService = {
             console.log(error)
             return {}
         }
-    }
+    },
+
+    async editProgram(token:string, newDetails:editProgram, originalId:string) {
+        try {
+            axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+            const response = await axios.patch(`${this.baseUrl}drillProgram/editProgram`, {
+                "originalid":originalId,
+                "program":{
+                  "orebody":newDetails.orebody,
+                  "location":newDetails.location,
+                  "target":newDetails.target
+                }
+            })
+            console.log(`${originalId} updated to ${newDetails.programid}`)
+            return response.status
+        }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            catch(error: any) {
+            console.log(error)
+            if(error.response.status) {
+            return error.response.status
+            }
+            else {
+                return 500
+            }
+        }
+    },
+
 }
