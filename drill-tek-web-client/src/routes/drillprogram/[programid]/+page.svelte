@@ -53,7 +53,7 @@ const hideaddDrillhole = () => {
                 <td>{data.program.totalmeters}</td>
                 <td>{data.program.dateplanned}</td>
                 <td>{data.program.dateupdated}</td>
-                <td>{data.session.email}</td>
+                <td>{data.email}</td>
             </tr>
         </tbody>
      </table>

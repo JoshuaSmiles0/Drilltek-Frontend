@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Banner from "$lib/ui/banner.svelte";
 
+ // eslint-disable-next-line @typescript-eslint/no-explicit-any
  let { data }: any = $props();
 
 </script>
@@ -41,7 +42,7 @@
                     <td>Infill</td>
                 {/if}
                 <td>{data.drillhole.programid}</td>
-                <td>{data.drillhole.userid}</td>
+                <td>{data.email}</td>
                 <td>{data.drillhole.dateplanned}</td>
                 <td>{data.drillhole.dateupdated}</td>
             </tr>
