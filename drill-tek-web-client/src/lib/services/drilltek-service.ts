@@ -94,6 +94,21 @@ export const drilltekService = {
 
     },
 
+    async getUserEmailById(token:string, id:number) {
+        try {
+            axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+            const response = await axios.get(`${this.baseUrl}user/getEmail`,{
+                params:{userid:id}
+            })
+            console.log(response.data.email)
+            return(response.data.email)
+        }
+        catch (error) {
+            console.log(error)
+            return ""
+        } 
+    },
+
     async getPrograms(token:string): Promise<DrillProgram[]> {
         try {
             axios.defaults.headers.common["Authorization"] = "Bearer " +token;
@@ -215,6 +230,23 @@ export const drilltekService = {
             else {
                 return 500
             }
+        }
+    },
+
+    async getDrillholeById(token:string, id:number) {
+        try {
+            axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+            const response = await axios.get(`${this.baseUrl}drillhole/getDrillholeById`,
+                {
+                    params:{holeid:id}
+                }
+            )
+            console.log(`${id} returned`)
+            return response.data.data as Drillhole
+        }
+        catch(error){
+        console.log(error)
+        return {}
         }
     }
 

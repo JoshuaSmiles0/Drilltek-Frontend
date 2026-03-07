@@ -53,7 +53,7 @@ const hideaddDrillhole = () => {
                 <td>{data.program.totalmeters}</td>
                 <td>{data.program.dateplanned}</td>
                 <td>{data.program.dateupdated}</td>
-                <td>{data.session.email}</td>
+                <td>{data.email}</td>
             </tr>
         </tbody>
      </table>
@@ -74,7 +74,7 @@ const hideaddDrillhole = () => {
             </div>
     </div>        
     <div class="column is-1">
-            <a  class="button is-success">Open</a>
+            <a href="/drillhole/{drillhole.holeid}"  class="button is-success">Open</a>
         </div>
     </div>
 {/each}

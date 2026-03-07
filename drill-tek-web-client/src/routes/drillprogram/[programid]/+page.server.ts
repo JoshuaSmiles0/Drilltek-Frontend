@@ -11,12 +11,18 @@ const { session } = await parent();
   if (session) {
     try {
     const program = await drilltekService.getProgramById(session.accessToken, params.programid)
+    let email = ""
+    if('userid' in program){
+      const id = program.userid as string
+      email = await drilltekService.getUserEmailById(session.accessToken,parseInt(id))
+    }
     const holes = await drilltekService.getDrillholeByProgramId(session.accessToken, params.programid)
     console.log(program)
     return {
       program,
       holes,
-      session
+      session,
+      email
   }}
   catch(error) {
     console.log(error)
