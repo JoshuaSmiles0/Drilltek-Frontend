@@ -1,5 +1,6 @@
 <script lang="ts">
-	import Banner from "$lib/ui/banner.svelte";
+	import AddDrillholeForm from "$lib/ui/addDrillholeForm.svelte";
+import Banner from "$lib/ui/banner.svelte";
 	import EditProgramForm from "$lib/ui/editProgramForm.svelte";
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -60,6 +61,23 @@ const hideaddDrillhole = () => {
 </div>
 
 <h1 class="title is-3">Drillholes:</h1>
+{#each data.holes as drillhole (drillhole.holeid) }
+    <div class="columns mt-2">
+        <div class="column is-11">
+        <div class="box">
+                <h1 class="title is-3">DDH-{drillhole.holeid}</h1>
+                <p class="subtitle">
+                    Dip: {drillhole.dip} <br>
+                    Azimuth: {drillhole.azimuth} <br>
+                    Length: {drillhole.length}
+                </p>
+            </div>
+    </div>        
+    <div class="column is-1">
+            <a  class="button is-success">Open</a>
+        </div>
+    </div>
+{/each}
 <button class="button is-success" onclick={()=>showaddDrillhole()}>Add Drillhole</button>
 
 <div class="modal {editProgramModal ? 'is-active' : ''}">
@@ -90,8 +108,8 @@ const hideaddDrillhole = () => {
                         </div>
                     </div>
                     <div class="modal-card-body">
-                        <form method="post" action="?/addProgram">
-                           
+                        <form method="post" action="?/addDrillhole">
+                           <AddDrillholeForm />
                             <button class="button is-success">add</button>
                         </form>
                     </div>

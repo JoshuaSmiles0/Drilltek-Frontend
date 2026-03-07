@@ -1,4 +1,4 @@
-import type { Session, DrillProgram, AddProgram, editProgram } from "$lib/types/drilltek-types"
+import type { Session, DrillProgram, AddProgram, editProgram, Drillhole, AddDrillhole } from "$lib/types/drilltek-types"
 import axios from "axios";
 
 export const drilltekService = {
@@ -159,7 +159,6 @@ export const drilltekService = {
                   "target":newDetails.target
                 }
             })
-            console.log(`${originalId} updated to ${newDetails.programid}`)
             return response.status
         }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -173,5 +172,51 @@ export const drilltekService = {
             }
         }
     },
+
+    async getDrillholeByProgramId(token:string, programid:string) {
+         try {
+            axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+            const response = await axios.get(`${this.baseUrl}drillhole/getDrillholesByProgramId`,{
+                params: {programid:programid}
+            })
+            console.log(`drillholes for ${programid} returned`)
+            return response.data.data as Drillhole[]
+        }
+        catch(error){
+            console.log(error)
+            return []
+        } 
+
+    },
+
+    async createDrillhole(token:string, drillhole: AddDrillhole) {
+        try {
+             axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+             const response = await axios.post(`${this.baseUrl}drillhole/addDrillhole`,{
+                 "xcoord":drillhole.xcoord,
+                 "ycoord":drillhole.ycoord,
+                 "zcoord":drillhole.zcoord,
+                 "dip":drillhole.dip,
+                 "azimuth":drillhole.azimuth,
+                 "length":drillhole.length,
+                 "type":drillhole.type,
+                 "programid": drillhole.programid,
+                 "userid": drillhole.userid
+             })
+             console.log(`drillhole added`)
+             return response.status
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        catch(error: any) {
+            console.log(error)
+            if(error.response.status) {
+            return error.response.status
+            }
+            else {
+                return 500
+            }
+        }
+    }
+
 
 }

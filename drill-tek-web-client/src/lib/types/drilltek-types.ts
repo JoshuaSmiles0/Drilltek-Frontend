@@ -25,3 +25,22 @@ export interface DrillProgram extends AddProgram {
     dateplanned: Date,
     dateupdated: Date
 }
+
+export interface AddDrillhole {
+    xcoord: number,
+    ycoord: number,
+    zcoord: number,
+    dip: number,
+    azimuth: number,
+    length: number,
+    type: number,
+    programid: string,
+    userid: number,
+}
+
+export interface Drillhole extends AddDrillhole {
+    holeid : number,
+    dateplanned:Date,
+    dateupdated:Date
+
+}
