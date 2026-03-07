@@ -1,4 +1,4 @@
-import type { Session, DrillProgram, AddProgram, editProgram, Drillhole, AddDrillhole } from "$lib/types/drilltek-types"
+import type { Session, DrillProgram, AddProgram, editProgram, Drillhole, AddDrillhole, EditDrillhole } from "$lib/types/drilltek-types"
 import axios from "axios";
 
 export const drilltekService = {
@@ -248,7 +248,38 @@ export const drilltekService = {
         console.log(error)
         return {}
         }
-    }
+    },
+
+
+    async editDrillhole(token:string, newDetails:EditDrillhole, originalId: number) {
+        try {
+            axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+            const response = await axios.patch(`${this.baseUrl}drillhole/editDrillhole`, {
+                "originalid":originalId,
+                "drillhole":{
+                 "xcoord":newDetails.xcoord,
+                 "ycoord":newDetails.ycoord,
+                 "zcoord":newDetails.zcoord,
+                 "dip":newDetails.dip,
+                 "azimuth":newDetails.azimuth,
+                 "length":newDetails.length,
+                 "type":newDetails.type
+                }
+            })
+            return response.status
+        }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            catch(error: any) {
+            console.log(error)
+            if(error.response.status) {
+            return error.response.status
+            }
+            else {
+                return 500
+            }
+        }
+    },
+
 
 
 }
