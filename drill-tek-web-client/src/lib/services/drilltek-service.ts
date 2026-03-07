@@ -1,5 +1,6 @@
 import type { Session, DrillProgram, AddProgram, editProgram, Drillhole, AddDrillhole } from "$lib/types/drilltek-types"
 import axios from "axios";
+import { error } from "node:console";
 
 export const drilltekService = {
 
@@ -215,6 +216,23 @@ export const drilltekService = {
             else {
                 return 500
             }
+        }
+    },
+
+    async getDrillholeById(token:string, id:number) {
+        try {
+            axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+            const response = await axios.get(`${this.baseUrl}drillhole/getDrillholeById`,
+                {
+                    params:{holeid:id}
+                }
+            )
+            console.log(`${id} returned`)
+            return response.data.data as Drillhole
+        }
+        catch(error){
+        console.log(error)
+        return {}
         }
     }
 

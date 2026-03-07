@@ -74,7 +74,7 @@ const hideaddDrillhole = () => {
             </div>
     </div>        
     <div class="column is-1">
-            <a  class="button is-success">Open</a>
+            <a href="/drillhole/{drillhole.holeid}"  class="button is-success">Open</a>
         </div>
     </div>
 {/each}
