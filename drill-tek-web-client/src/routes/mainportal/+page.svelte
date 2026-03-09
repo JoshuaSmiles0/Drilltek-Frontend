@@ -43,7 +43,7 @@
      <p class="title is-4">Proceed to the logging portal to input and view logging data on holes </p>
     </div>
     <div class="card-footer p-4">
-        <button class="button is-success">Enter</button>
+        <button class="button is-success"><a href="/loggingportal">Enter</a></button>
     </div>
 
     </div>
