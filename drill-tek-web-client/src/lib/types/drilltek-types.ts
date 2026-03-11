@@ -47,3 +47,18 @@ export interface Drillhole extends AddDrillhole {
     dateupdated:Date
 
 }
+
+export interface AddLithLog {
+    start:number,
+    end:number,
+    lithcode:string,
+    comment:string,
+    lithology:string,
+    holeid:number,
+    userid:number
+}
+
+export interface Lithlog extends AddLithLog {
+    index: number,
+    dateLogged: Date
+}
