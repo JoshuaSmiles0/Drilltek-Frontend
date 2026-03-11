@@ -1,4 +1,4 @@
-import type { Session, DrillProgram, AddProgram, editProgram, Drillhole, AddDrillhole, EditDrillhole } from "$lib/types/drilltek-types"
+import type { Session, DrillProgram, AddProgram, editProgram, Drillhole, AddDrillhole, EditDrillhole, Lithlog } from "$lib/types/drilltek-types"
 import axios from "axios";
 
 export const drilltekService = {
@@ -279,6 +279,21 @@ export const drilltekService = {
             }
         }
     },
+
+
+    async getLithLog(token:string, holeid:number) {
+        try{
+            axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+            const response = await axios.get(`${this.baseUrl}lithlog/getlithlogbyholeid`, {
+                params:{holeid}
+            })
+            console.log(`lith logs for ${holeid} returned`)
+            return response.data.data as Lithlog[]
+        }
+        catch(error) {
+            console.log(error)
+        }
+    }
 
 
 

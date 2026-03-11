@@ -24,7 +24,7 @@
             </div>
     </div>        
     <div class="column is-1">
-            <a href="/drillholelogging/{drillhole.holeid}"  class="button is-success">Open</a>
+            <a href="/drillholelithlogging/{drillhole.holeid}"  class="button is-success">Open</a>
         </div>
     </div>
 {/each}
