@@ -1,13 +1,14 @@
 <script lang="ts">
 	import Banner from "$lib/ui/banner.svelte";
+	import LogTable from "$lib/ui/logTable.svelte";
 
 
     let { data }: any = $props();
-    const lith = $state(true);
+    const lith = $state(false);
     const structure = $state(false);
     const alteration = $state(false);
     const mineral = $state(false)
-    const overview = $state(false)
+    const overview = $state(true)
 
 </script>
 
@@ -61,39 +62,23 @@
         {#if lith}
         <div class="box mt-2">
         <h1 class="title is-4">Lithology</h1>
-        <table class="table is-fullwidth">
-            <thead>
-                <tr>
-                    <th>From</th>
-                    <th>To</th>
-                    <th>Lith</th>
-                    <th>Comment</th>
-                </tr>
-            </thead>
-                <tbody>
-                    {#each data.lithlog as record (record.index) }
-                    <tr>
-                        <td>{record.start}</td>
-                        <td>{record.end}</td>
-                        <td>{record.lithcode}</td>
-                        <td>{record.comment}</td>
-                    </tr>
-                    {/each}
-                </tbody>
-        </table>
+        <LogTable log={data.lithlog} />
         </div>
         {/if}
-        {#if structure}
-
-        {/if}
-        {#if alteration}
-
-        {/if}
-        {#if mineral}
-
-        {/if}
         {#if overview}
-            
+        <div class="box mt-2">
+        <h1 class="title is-4">Lithology</h1>
+        <LogTable log={data.lithlog} />
+        </div>
+        <div class="box mt-2">
+        <h1 class="title is-4">Alteration</h1>
+        <LogTable log={data.alterationlog} />
+        </div>
+        <div class="box mt-2">
+        <h1 class="title is-4">Structure</h1>
+        <LogTable log={data.structurelog} />
+        </div>
         {/if}
         </div>
     </div>
+
