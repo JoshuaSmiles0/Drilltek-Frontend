@@ -7,6 +7,12 @@
 
 </script>
 
+<style>
+    table {
+        overflow-y: auto;
+    }
+</style>
+
 
 <table class="table is-fullwidth">
             <thead>

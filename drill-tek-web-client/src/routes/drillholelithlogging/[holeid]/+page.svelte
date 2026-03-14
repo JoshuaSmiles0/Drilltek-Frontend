@@ -4,11 +4,59 @@
 
 
     let { data }: any = $props();
-    const lith = $state(false);
-    const structure = $state(false);
-    const alteration = $state(false);
-    const mineral = $state(false)
-    const overview = $state(true)
+    let lith = $state(true);
+    let structure = $state(false);
+    let alteration = $state(false);
+    let mineral = $state(false)
+    let overview = $state(false)
+
+    let active = $state("Lith")
+
+    const showOverview = () => {
+    overview = true
+    lith = false
+    structure = false
+    alteration = false
+    mineral = false
+    active = "Overview"
+}
+
+    const showLith = () => {
+    lith = true
+    structure = false
+    alteration = false
+    mineral = false
+    overview = false
+    active = "Lith"
+}
+
+    const showAlt = () => {
+    lith = false
+    structure = false
+    alteration = true
+    mineral = false
+    overview = false
+    active = "Alt"
+}
+
+    const showStruc = () => {
+    lith = false
+    structure = true
+    alteration = false
+    mineral = false
+    overview = false
+    active = "Struc"
+}
+
+    const showMin = () => {
+    lith = false
+    structure = false
+    alteration = false
+    mineral = true
+    overview = false
+    active = "Min"
+}
+
 
 </script>
 
@@ -16,7 +64,10 @@
     .is-active {
         background-color: black;
         color: white;
-
+    }
+    .table-container {
+        height: 25vh;
+        overflow-y: auto;
     }
 </style>
 
@@ -30,29 +81,28 @@
                     <div class="container">
                         <ul>
                         <li>
-                            <a id="lithology" class="is-active">
-                            Lithology
-                            </a>
+                            <button class:is-active={"Lith" === active} class="button is-success" onclick={() => showLith()}>
+                            Lithology </button>
                         </li>
                         <li>
-                            <a id="structure">
+                            <button class:is-active={"Struc" === active} class="button is-success" onclick={() => showStruc()}>
                              Structure
-                            </a>
+                            </button>
                         </li>
                         <li>
-                            <a id="alteration">
+                            <button class:is-active={"Alt" === active} class="button is-success" onclick={() => showAlt()}> 
                               Alteration
-                            </a>
+                            </button>
                         </li>
                         <li>
-                            <a id="mineral">
+                            <button class:is-active={"Min" === active} class="button is-success" onclick={() => showMin()}> 
                               Mineral
-                            </a>
+                            </button>
                         </li>
                         <li>
-                            <a id="overview">
+                            <button class:is-active={"Overview" === active} class="button is-success" onclick={() => showOverview()}>
                               Overview
-                            </a>
+                              </button>
                         </li>
                         </ul>
                     </div>
