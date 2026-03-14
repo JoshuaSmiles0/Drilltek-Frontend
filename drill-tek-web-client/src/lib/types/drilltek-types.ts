@@ -62,3 +62,55 @@ export interface Lithlog extends AddLithLog {
     index: number,
     dateLogged: Date
 }
+
+export interface AddMineralLog {
+    sampleid:string,
+    start:number,
+    end:number,
+    estimate:number,
+    comment:string,
+    sampletype:string,
+    texture:string,
+    holeid:number,
+    userid:number
+}
+
+export interface Minerallog extends AddMineralLog {
+    zn:number,
+    pb:number,
+    fe:number,
+    ag:number,
+    assaysUploaded:boolean,
+    dateLogged: Date
+}
+
+export interface AddAlterationLog {
+    start:number,
+    end:number,
+    alterationcode:string,
+    comment:string,
+    alterationtype:string,
+    holeid:number,
+    userid:number
+}
+
+export interface Alterationlog extends AddAlterationLog {
+    index: number,
+    dateLogged: Date
+}
+
+export interface AddStructureLog {
+    start:number,
+    end:number,
+    structurecode:string,
+    comment:string,
+    structuretype:string,
+    dip:number,
+    holeid:number,
+    userid:number
+}
+
+export interface Structurelog extends AddStructureLog {
+    index: number,
+    dateLogged: Date
+}

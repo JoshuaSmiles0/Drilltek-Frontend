@@ -1,4 +1,4 @@
-import type { Session, DrillProgram, AddProgram, editProgram, Drillhole, AddDrillhole, EditDrillhole, Lithlog } from "$lib/types/drilltek-types"
+import type { Session, DrillProgram, AddProgram, editProgram, Drillhole, AddDrillhole, EditDrillhole, Lithlog, Alterationlog, Structurelog, Minerallog } from "$lib/types/drilltek-types"
 import axios from "axios";
 
 export const drilltekService = {
@@ -293,7 +293,49 @@ export const drilltekService = {
         catch(error) {
             console.log(error)
         }
-    }
+    },
+
+        async getAlterationLog(token:string, holeid:number) {
+        try{
+            axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+            const response = await axios.get(`${this.baseUrl}altlog/getAlterationlogByHoleid`, {
+                params:{holeid}
+            })
+            console.log(`Alteration logs for ${holeid} returned`)
+            return response.data.data as Alterationlog[]
+        }
+        catch(error) {
+            console.log(error)
+        }
+    },
+
+        async getStructureLog(token:string, holeid:number) {
+        try{
+            axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+            const response = await axios.get(`${this.baseUrl}struclog/getStructurelogByHoleid`, {
+                params:{holeid}
+            })
+            console.log(`structure logs for ${holeid} returned`)
+            return response.data.data as Structurelog[]
+        }
+        catch(error) {
+            console.log(error)
+        }
+    },
+
+        async getMineralLog(token:string, holeid:number) {
+        try{
+            axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+            const response = await axios.get(`${this.baseUrl}minlog/getMinerallogByHoleid`, {
+                params:{holeid}
+            })
+            console.log(`mineral logs for ${holeid} returned`)
+            return response.data.data as Minerallog[]
+        }
+        catch(error) {
+            console.log(error)
+        }
+    },
 
 
 
