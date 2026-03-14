@@ -120,6 +120,8 @@
                 </div>
             </div>
         </div>
+        </div>
+        </div>
         {#if lith}
         <div class="box mt-2">
         <h1 class="title is-4">Lithology</h1>
@@ -127,6 +129,8 @@
         </div>
         {/if}
         {#if overview}
+        <div class="columns">
+        <div class="column is-7">
         <div class="box mt-2">
         <div class="table-container">
         <h1 class="title is-4">Lithology</h1>
@@ -151,15 +155,19 @@
         <LogTable log={data.minerallog} excludeHeader="sampleid" />
         </div>
         </div>
+        </div>
+        <div class="column is-5">
+        <div class="box">
           <Chart 
   data={graphD}
   type="bar"
   height={400}
   barOptions={{stacked: 1}}
 />
+</div>
+</div>
+</div>
         {/if}
-        </div>
-    </div>
 
 
   
