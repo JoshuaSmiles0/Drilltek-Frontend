@@ -1,8 +1,9 @@
 <script lang="ts">
 
-    const {log} = $props()
+    const {log, excludeHeader} = $props()
     const logheaders = log[0]
     const headers = logheaders ? Object.keys(logheaders) : []
+    const exclude = excludeHeader
 
 </script>
 
@@ -11,17 +12,17 @@
             <thead>
             <tr>
             {#each headers as header, index(header)  }
-            {#if header !== "index"}
+            {#if header !== exclude}
                 <th>{header}</th>
             {/if}
             {/each}
             </tr>
             </thead>
                 <tbody>
-                    {#each log as record (record.index) }
+                    {#each log as record (record[excludeHeader]) }
                     <tr>
                     {#each headers as header, index(header) }
-                    {#if header !== "index"}
+                    {#if header !== exclude}
                         <td>{record[header]}</td>
                     {/if}
                     {/each}

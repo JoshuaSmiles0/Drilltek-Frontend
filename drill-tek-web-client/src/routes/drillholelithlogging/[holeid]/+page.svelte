@@ -62,23 +62,36 @@
         {#if lith}
         <div class="box mt-2">
         <h1 class="title is-4">Lithology</h1>
-        <LogTable log={data.lithlog} />
+        <LogTable log={data.lithlog} excludeHeader="index" />
         </div>
         {/if}
         {#if overview}
         <div class="box mt-2">
+        <div class="table-container">
         <h1 class="title is-4">Lithology</h1>
-        <LogTable log={data.lithlog} />
+        <LogTable log={data.lithlog} excludeHeader="index" />
+        </div>
         </div>
         <div class="box mt-2">
+        <div class="table-container">
         <h1 class="title is-4">Alteration</h1>
-        <LogTable log={data.alterationlog} />
+        <LogTable log={data.alterationlog} excludeHeader="index" />
+        </div>
         </div>
         <div class="box mt-2">
+        <div class="table-container">
         <h1 class="title is-4">Structure</h1>
-        <LogTable log={data.structurelog} />
+        <LogTable log={data.structurelog} excludeHeader="index" />
+        </div>
+        </div>
+        <div class="box mt-2">
+        <div class="table-container">
+        <h1 class="title is-4">Mineral</h1>
+        <LogTable log={data.minerallog} excludeHeader="sampleid" />
+        </div>
         </div>
         {/if}
         </div>
     </div>
+
 
