@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Banner from "$lib/ui/banner.svelte";
 	import LogTable from "$lib/ui/logTable.svelte";
+    import Chart from 'svelte-frappe-charts'
 
 
     let { data }: any = $props();
@@ -11,6 +12,16 @@
     let overview = $state(false)
 
     let active = $state("Lith")
+
+    const graphVals = data.lithlog.map((log) => ({
+        name: log.lithcode,
+        values: [log.end - log.start]
+    }))
+
+   const graphD = {
+    labels:[data.hole.holeid],
+    datasets:graphVals
+   }
 
     const showOverview = () => {
     overview = true
@@ -140,8 +151,17 @@
         <LogTable log={data.minerallog} excludeHeader="sampleid" />
         </div>
         </div>
+          <Chart 
+  data={graphD}
+  type="bar"
+  height={400}
+  barOptions={{stacked: 1}}
+/>
         {/if}
         </div>
     </div>
+
+
+  
 
 
