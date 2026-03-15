@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Banner from "$lib/ui/banner.svelte";
+	import Logform from "$lib/ui/logform.svelte";
 	import LogTable from "$lib/ui/logTable.svelte";
     import Chart from 'svelte-frappe-charts'
 
@@ -10,6 +11,10 @@
     let alteration = $state(false);
     let mineral = $state(false)
     let overview = $state(false)
+    let lithlog = $state(data.lithlog)
+    let altlog = $state(data.alterationlog)
+    let struclog = $state(data.structurelog)
+    let minlog = $state(data.minerallog)
 
     let active = $state("Lith")
 
@@ -125,9 +130,64 @@
         {#if lith}
         <div class="box mt-2">
         <h1 class="title is-4">Lithology</h1>
-        <LogTable log={data.lithlog} excludeHeader="index" />
+        <Logform log={lithlog} logtype="lithological"/>
         </div>
         {/if}
+        {#if alteration}
+        <div class="box mt-2">
+        <h1 class="title is-4">Alteration</h1>
+        <Logform log={altlog} logtype="alteration"/>
+        </div>
+        {/if}
+        {#if structure}
+        <div class="box mt-2">
+        <h1 class="title is-4">Structure</h1>
+        <Logform log={struclog} logtype="structure"/>
+        </div>
+        {/if}
+        {#if mineral}
+        <div class="box mt-2">
+        <h1 class="title is-4">Mineral</h1>
+        {#each minlog as record (record.sampleid) }
+    <div class="field is-horizontal">
+        <div class="field-body">
+        <input bind:value={record.sampleid} class="input" type="text" placeholder="sample Id">
+        <input bind:value={record.start} class="input" type="number" placeholder="from">
+        <input bind:value={record.end} class="input" type="number" placeholder="to">
+        <input bind:value={record.estimate} class="input" type="number" placeholder="est">
+        <input bind:value={record.comment} class="input" type="text" placeholder="comment">
+         <div class="control">
+    <select class="select" bind:value={record.sampletype}>
+ <option value="BLANK">BLANK</option>
+  <option value="STD1">STD1</option>
+  <option value="STD2">STD2</option>
+  <option value="STD3">STD3</option>
+  <option value="SAMPLE">SAMPLE</option>
+    </select>
+</div>
+ <div class="control">
+    <select class="select" bind:value={record.texture}>
+ <option value="D">D</option>
+  <option value="R">R</option>
+  <option value="M">M</option>
+  <option value="Sm">Sm</option>
+  <option value="X">X</option>
+  <option value="F">F</option>
+  <option value="Rm">Rm</option>
+  <option value="S">S</option>
+  <option value="V">V</option>
+  <option value="T">T</option>
+  <option value="B">B</option>
+    </select>
+</div>
+
+        </div>
+    </div>
+{/each}
+
+        </div>
+        {/if}
+
         {#if overview}
         <div class="columns">
         <div class="column is-7">
