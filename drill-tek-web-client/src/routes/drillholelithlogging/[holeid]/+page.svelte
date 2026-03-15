@@ -11,10 +11,10 @@
     let alteration = $state(false);
     let mineral = $state(false)
     let overview = $state(false)
-    let lithlog = $state(data.lithlog || [{index:Math.random(), start:0, end:0, lithcode:"", comment:""}])
-    let altlog = $state(data.alterationlog || [{index:Math.random(), start:0, end:0, alterationcode:"", comment:""}])
-    let struclog = $state(data.structurelog || [{index:Math.random(), start:0, end:0, structurecode:"", comment:"", dip:0}])
-    let minlog = $state(data.minerallog || [{sampleid:Math.random().toString(), start:0, end:0, estimate:0,comment:"", sampletype:"SAMPLE", texture:"D" }])
+    let lithlog = $state(data.lithlog || [{index:Math.random(), start:0, end:0, lithcode:"", comment:"", holeid:data.hole.holeid, userid:data.session.userid}])
+    let altlog = $state(data.alterationlog || [{index:Math.random(), start:0, end:0, alterationcode:"", comment:"", holeid:data.hole.holeid, userid:data.session.userid}])
+    let struclog = $state(data.structurelog || [{index:Math.random(), start:0, end:0, structurecode:"", comment:"", dip:0, holeid:data.hole.holeid, userid:data.session.userid}])
+    let minlog = $state(data.minerallog || [{sampleid:Math.random().toString(), start:0, end:0, estimate:0,comment:"", sampletype:"SAMPLE", texture:"D", holeid:data.hole.holeid, userid:data.session.userid }])
 
     let active = $state("Lith")
 
@@ -75,17 +75,18 @@
 
 const addLith = () => {
     const last = lithlog.at(-1)
-    lithlog = [... lithlog,{index:Math.random(), start:last.end, end:null, lithcode:"", comment:""}]
+    lithlog = [... lithlog,{index:Math.random(), start:last.end, end:null, lithcode:"", comment:"", holeid:data.hole.holeid, userid:data.session.userid}]
+    console.log(lithlog)
 }
 
 const addAlt = () => {
     const last = altlog.at(-1)
-    altlog = [... altlog,{index:Math.random(), start:last.end, end:null, alterationcode:"", comment:""}]
+    altlog = [... altlog,{index:Math.random(), start:last.end, end:null, alterationcode:"", comment:"", holeid:data.hole.holeid, userid:data.session.userid}]
 }
 
 const addStruc = () => {
     const last = struclog.at(-1)
-    struclog = [... struclog,{index:Math.random(), start:last.end, end:null, structurecode:"", comment:"", dip:null}]
+    struclog = [... struclog,{index:Math.random(), start:last.end, end:null, structurecode:"", comment:"", dip:null, holeid:data.hole.holeid, userid:data.session.userid}]
 }
 
 const addMin = () => {
@@ -97,7 +98,7 @@ const addMin = () => {
     lastArr.pop()
     lastArr.push(newChar)
     const newId = lastArr.join("")
-    minlog = [... minlog,{sampleid:newId, start:last.end, end:null, estimate:null,comment:"", sampletype:"SAMPLE", texture:"D" }]
+    minlog = [... minlog,{sampleid:newId, start:last.end, end:null, estimate:null,comment:"", sampletype:"SAMPLE", texture:"D", holeid:data.hole.holeid, userid:data.session.userid }]
 }
 
 const deleteMin = (sampleid: string) => {
@@ -233,6 +234,8 @@ const deleteAlt = (index : number) => {
   <option value="B">B</option>
     </select>
 </div>
+<input bind:value={record.holeid} class="input" type="hidden">
+<input bind:value={record.userid} class="input" type="hidden">
 <button type="button" class="button is-danger" aria-label="delete" onclick={() => deleteMin(record.sampleid)}>
 <span>
 <i class=" fas fa-solid fa-trash"></i>

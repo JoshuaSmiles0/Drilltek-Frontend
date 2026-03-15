@@ -41,6 +41,8 @@ let {log = $bindable(), logtype, logDelete} = $props()
     </select>
 </div>
 <input bind:value={record.comment} class="input" type="text" placeholder="comment">
+<input bind:value={record.holeid} class="input" type="hidden">
+<input bind:value={record.userid} class="input" type="hidden">
 <button type="button" class="button is-danger" aria-label="delete" onclick={() => logDelete(record.index)}>
 <span>
 <i class=" fas fa-solid fa-trash"></i>
@@ -77,6 +79,8 @@ let {log = $bindable(), logtype, logDelete} = $props()
     </select>
 </div>
 <input bind:value={record.comment} class="input" type="text" placeholder="comment">
+<input bind:value={record.holeid} class="input" type="hidden">
+<input bind:value={record.userid} class="input" type="hidden">
 <button type="button" class="button is-danger" aria-label="delete" onclick={() => logDelete(record.index)}>
 <span>
 <i class=" fas fa-solid fa-trash"></i>
@@ -119,6 +123,8 @@ let {log = $bindable(), logtype, logDelete} = $props()
     </select>
 </div>
 <input bind:value={record.comment} class="input" type="text" placeholder="comment">
+<input bind:value={record.holeid} class="input" type="hidden">
+<input bind:value={record.userid} class="input" type="hidden">
 <button type="button" class="button is-danger" aria-label="delete" onclick={() => logDelete(record.index)}>
 <span>
 <i class=" fas fa-solid fa-trash"></i>
