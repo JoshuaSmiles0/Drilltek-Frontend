@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { command } from "$app/server";
 	import Banner from "$lib/ui/banner.svelte";
 	import Logform from "$lib/ui/logform.svelte";
 	import LogTable from "$lib/ui/logTable.svelte";
@@ -12,14 +11,14 @@
     let alteration = $state(false);
     let mineral = $state(false)
     let overview = $state(false)
-    let lithlog = $state(data.lithlog)
-    let altlog = $state(data.alterationlog)
-    let struclog = $state(data.structurelog)
-    let minlog = $state(data.minerallog || [{sampleid:Math.random().toString(), start:null, end:null, estimate:null,comment:"", sampletype:"SAMPLE", texture:"D" }])
+    let lithlog = $state(data.lithlog || [{index:Math.random(), start:0, end:0, lithcode:"", comment:""}])
+    let altlog = $state(data.alterationlog || [{index:Math.random(), start:0, end:0, alterationcode:"", comment:""}])
+    let struclog = $state(data.structurelog || [{index:Math.random(), start:0, end:0, structurecode:"", comment:"", dip:0}])
+    let minlog = $state(data.minerallog || [{sampleid:Math.random().toString(), start:0, end:0, estimate:0,comment:"", sampletype:"SAMPLE", texture:"D" }])
 
     let active = $state("Lith")
-console.log(minlog)
-    const graphVals = data.lithlog.map((log) => ({
+
+    const graphVals = lithlog.map((log) => ({
         name: log.lithcode,
         values: [log.end - log.start]
     }))
@@ -105,6 +104,18 @@ const deleteMin = (sampleid: string) => {
     minlog = minlog.filter((min) => min.sampleid !== sampleid)
 }
 
+const deleteLith = (index: number) => {
+    lithlog = lithlog.filter((lith) => lith.index !== index)
+}
+
+const deleteStruc = (index: number) => {
+    struclog = struclog.filter((struc) => struc.index !== index)
+}
+
+const deleteAlt = (index : number) => {
+    altlog = altlog.filter((alt) => alt.index !== index)
+}
+
 
 </script>
 
@@ -147,11 +158,13 @@ const deleteMin = (sampleid: string) => {
                               Mineral
                             </button>
                         </li>
-                        <li>
+                        {#if data.lithlog !== null}
+                            <li>
                             <button class:is-active={"Overview" === active} class="button is-success" onclick={() => showOverview()}>
                               Overview
                               </button>
                         </li>
+                        {/if}
                         </ul>
                     </div>
                 </div>
@@ -159,24 +172,29 @@ const deleteMin = (sampleid: string) => {
         </div>
         </div>
         </div>
+         <button type="submit" class="button mb-4 is-link" aria-label="save">
+        <span>
+               <i class="fas fa-solid fa-upload"></i>
+               </span>
+        </button>
         {#if lith}
         <div class="box mt-2">
         <h1 class="title is-4">Lithology</h1>
-        <Logform log={lithlog} logtype="lithological"/>
-        <button class="button is-success" onclick={() => addLith()}>Add</button>
+        <Logform log={lithlog} logtype="lithological" logDelete={deleteLith}/>
+        <button type="button" class="button is-success" onclick={() => addLith()}>Add</button>
         </div>
         {/if}
         {#if alteration}
         <div class="box mt-2">
         <h1 class="title is-4">Alteration</h1>
-        <Logform log={altlog} logtype="alteration"/>
+        <Logform log={altlog} logtype="alteration" logDelete={deleteAlt}/>
          <button class="button is-success" onclick={() => addAlt()}>Add</button>
         </div>
         {/if}
         {#if structure}
         <div class="box mt-2">
         <h1 class="title is-4">Structure</h1>
-        <Logform log={struclog} logtype="structure"/>
+        <Logform log={struclog} logtype="structure" logDelete={deleteStruc}/>
          <button class="button is-success" onclick={() => addStruc()}>Add</button>
         </div>
         {/if}
@@ -215,7 +233,7 @@ const deleteMin = (sampleid: string) => {
   <option value="B">B</option>
     </select>
 </div>
-<button type="button" class="button is-danger" onclick={() => deleteMin(record.sampleid)}>
+<button type="button" class="button is-danger" aria-label="delete" onclick={() => deleteMin(record.sampleid)}>
 <span>
 <i class=" fas fa-solid fa-trash"></i>
 </span>

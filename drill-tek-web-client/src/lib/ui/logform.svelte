@@ -1,7 +1,7 @@
 <script lang="ts">
 
 
-let {log = $bindable(), logtype} = $props()
+let {log = $bindable(), logtype, logDelete} = $props()
 
 
 </script>
@@ -41,6 +41,11 @@ let {log = $bindable(), logtype} = $props()
     </select>
 </div>
 <input bind:value={record.comment} class="input" type="text" placeholder="comment">
+<button type="button" class="button is-danger" aria-label="delete" onclick={() => logDelete(record.index)}>
+<span>
+<i class=" fas fa-solid fa-trash"></i>
+</span>
+</button>
 </div>
 </div>
 {/if}
@@ -72,6 +77,11 @@ let {log = $bindable(), logtype} = $props()
     </select>
 </div>
 <input bind:value={record.comment} class="input" type="text" placeholder="comment">
+<button type="button" class="button is-danger" aria-label="delete" onclick={() => logDelete(record.index)}>
+<span>
+<i class=" fas fa-solid fa-trash"></i>
+</span>
+</button>
         </div>
     </div>
 {/if}
@@ -109,6 +119,11 @@ let {log = $bindable(), logtype} = $props()
     </select>
 </div>
 <input bind:value={record.comment} class="input" type="text" placeholder="comment">
+<button type="button" class="button is-danger" aria-label="delete" onclick={() => logDelete(record.index)}>
+<span>
+<i class=" fas fa-solid fa-trash"></i>
+</span>
+</button>
         </div>
     </div>
 {/if}

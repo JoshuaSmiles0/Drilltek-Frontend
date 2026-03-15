@@ -288,7 +288,12 @@ export const drilltekService = {
                 params:{holeid}
             })
             console.log(`lith logs for ${holeid} returned`)
+            if(response.data.data.length !== 0) {
             return response.data.data as Lithlog[]
+            }
+            else {
+                return null
+            }
         }
         catch(error) {
             console.log(error)
@@ -302,10 +307,16 @@ export const drilltekService = {
                 params:{holeid}
             })
             console.log(`Alteration logs for ${holeid} returned`)
+            if(response.data.data.length !== 0) {
             return response.data.data as Alterationlog[]
+            }
+            else {
+                return null
+            }
         }
         catch(error) {
             console.log(error)
+            return null
         }
     },
 
@@ -316,10 +327,16 @@ export const drilltekService = {
                 params:{holeid}
             })
             console.log(`structure logs for ${holeid} returned`)
+            if(response.data.data.length !== 0) {
             return response.data.data as Structurelog[]
+            }
+            else {
+                return null
+            }
         }
         catch(error) {
             console.log(error)
+            return null
         }
     },
 
@@ -339,8 +356,8 @@ export const drilltekService = {
             
         }
         catch(error) {
-            return null
             console.log(error)
+            return null
         }
     },
 
