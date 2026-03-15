@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { command } from "$app/server";
 	import Banner from "$lib/ui/banner.svelte";
 	import Logform from "$lib/ui/logform.svelte";
 	import LogTable from "$lib/ui/logTable.svelte";
@@ -14,10 +15,10 @@
     let lithlog = $state(data.lithlog)
     let altlog = $state(data.alterationlog)
     let struclog = $state(data.structurelog)
-    let minlog = $state(data.minerallog)
+    let minlog = $state(data.minerallog || [{sampleid:Math.random().toString(), start:null, end:null, estimate:null,comment:"", sampletype:"SAMPLE", texture:"D" }])
 
     let active = $state("Lith")
-
+console.log(minlog)
     const graphVals = data.lithlog.map((log) => ({
         name: log.lithcode,
         values: [log.end - log.start]
@@ -71,6 +72,37 @@
     mineral = true
     overview = false
     active = "Min"
+}
+
+const addLith = () => {
+    const last = lithlog.at(-1)
+    lithlog = [... lithlog,{index:Math.random(), start:last.end, end:null, lithcode:"", comment:""}]
+}
+
+const addAlt = () => {
+    const last = altlog.at(-1)
+    altlog = [... altlog,{index:Math.random(), start:last.end, end:null, alterationcode:"", comment:""}]
+}
+
+const addStruc = () => {
+    const last = struclog.at(-1)
+    struclog = [... struclog,{index:Math.random(), start:last.end, end:null, structurecode:"", comment:"", dip:null}]
+}
+
+const addMin = () => {
+    const last = minlog.at(-1)
+    const lastID = last.sampleid
+    let lastArr = lastID.split("")
+    const newNum = parseInt(lastArr[lastArr.length -1]) + 1
+    const newChar = newNum.toString()
+    lastArr.pop()
+    lastArr.push(newChar)
+    const newId = lastArr.join("")
+    minlog = [... minlog,{sampleid:newId, start:last.end, end:null, estimate:null,comment:"", sampletype:"SAMPLE", texture:"D" }]
+}
+
+const deleteMin = (sampleid: string) => {
+    minlog = minlog.filter((min) => min.sampleid !== sampleid)
 }
 
 
@@ -131,18 +163,21 @@
         <div class="box mt-2">
         <h1 class="title is-4">Lithology</h1>
         <Logform log={lithlog} logtype="lithological"/>
+        <button class="button is-success" onclick={() => addLith()}>Add</button>
         </div>
         {/if}
         {#if alteration}
         <div class="box mt-2">
         <h1 class="title is-4">Alteration</h1>
         <Logform log={altlog} logtype="alteration"/>
+         <button class="button is-success" onclick={() => addAlt()}>Add</button>
         </div>
         {/if}
         {#if structure}
         <div class="box mt-2">
         <h1 class="title is-4">Structure</h1>
         <Logform log={struclog} logtype="structure"/>
+         <button class="button is-success" onclick={() => addStruc()}>Add</button>
         </div>
         {/if}
         {#if mineral}
@@ -180,11 +215,16 @@
   <option value="B">B</option>
     </select>
 </div>
-
+<button type="button" class="button is-danger" onclick={() => deleteMin(record.sampleid)}>
+<span>
+<i class=" fas fa-solid fa-trash"></i>
+</span>
+</button>
         </div>
     </div>
 {/each}
 
+<button class="button is-success" onclick={() => addMin()}>Add</button>
         </div>
         {/if}
 

@@ -80,6 +80,7 @@ let {log = $bindable(), logtype} = $props()
         <div class="field-body">
         <input bind:value={record.start} class="input" type="number" placeholder="from">
         <input bind:value={record.end} class="input" type="number" placeholder="to">
+        <input bind:value={record.dip} class="input" type="number" placeholder="dip">
         <div class="control">
     <select class="select" bind:value={record.structurecode}>
  <option value="F1">F1</option>

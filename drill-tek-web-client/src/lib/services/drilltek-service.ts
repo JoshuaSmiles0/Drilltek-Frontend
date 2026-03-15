@@ -330,9 +330,16 @@ export const drilltekService = {
                 params:{holeid}
             })
             console.log(`mineral logs for ${holeid} returned`)
-            return response.data.data as Minerallog[]
+            if(response.data.data.length !== 0) {
+              return response.data.data as Minerallog[]
+            }
+            else {
+                return null
+            }
+            
         }
         catch(error) {
+            return null
             console.log(error)
         }
     },
