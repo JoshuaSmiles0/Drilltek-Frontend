@@ -1,4 +1,4 @@
-import type { Session, DrillProgram, AddProgram, editProgram, Drillhole, AddDrillhole, EditDrillhole, Lithlog, Alterationlog, Structurelog, Minerallog } from "$lib/types/drilltek-types"
+import type { Session, DrillProgram, AddProgram, editProgram, Drillhole, AddDrillhole, EditDrillhole, Lithlog, Alterationlog, Structurelog, Minerallog, AddLithLog } from "$lib/types/drilltek-types"
 import axios from "axios";
 
 export const drilltekService = {
@@ -297,6 +297,44 @@ export const drilltekService = {
         }
         catch(error) {
             console.log(error)
+        }
+    },
+
+    async deleteLithLogByHoleid(token:string, holeid:number) {
+        try {
+            axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+            const response = await axios.delete(`${this.baseUrl}lithlog/deleteLithLog`, {
+                params:{holeid:holeid}
+            })
+            return response.status
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        catch(error: any) {
+            console.log(error)
+            if(error.response.status) {
+            return error.response.status
+            }
+            else {
+                return 500
+            }
+        }
+    },
+
+    async addLithLog(token:string, logs:AddLithLog[]) {
+        try {
+            axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+            const response = await axios.post(`${this.baseUrl}lithlog/addLithLog`, logs)
+            return response.status
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        catch(error: any) {
+            console.log(error)
+            if(error.response.status) {
+            return error.response.status
+            }
+            else {
+                return 500
+            }
         }
     },
 

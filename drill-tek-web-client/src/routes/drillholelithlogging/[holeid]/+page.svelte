@@ -1,7 +1,9 @@
 <script lang="ts">
+	import { drilltekService } from "$lib/services/drilltek-service";
 	import Banner from "$lib/ui/banner.svelte";
 	import Logform from "$lib/ui/logform.svelte";
 	import LogTable from "$lib/ui/logTable.svelte";
+	import axios from "axios";
     import Chart from 'svelte-frappe-charts'
 
 
@@ -117,6 +119,41 @@ const deleteAlt = (index : number) => {
     altlog = altlog.filter((alt) => alt.index !== index)
 }
 
+async function uploadLith () {
+    const formData = new FormData()
+    formData.append('lithLog', JSON.stringify(lithlog))
+    const response = await axios.post('?/uploadLith', formData)
+    console.log(response.status)
+}
+
+async function uploadAlt () {
+    const formData = new FormData()
+    formData.append('altLog', JSON.stringify(altlog))
+    const response = await axios.post('?/uploadAlt', formData)
+    console.log(response.status)
+}
+
+async function uploadStruc () {
+    const formData = new FormData()
+    formData.append('strucLog', JSON.stringify(struclog))
+    const response = await axios.post('?/uploadStruc', formData)
+    console.log(response.status)
+}
+
+async function uploadMin () {
+    const formData = new FormData()
+    formData.append('minLog', JSON.stringify(minlog))
+    const response = await axios.post('?/uploadMin', formData)
+    console.log(response.status)
+}
+
+async function uploadAll () {
+    const formData = new FormData()
+    formData.append('minLog', JSON.stringify(minlog))
+    const response = await axios.post('?/uploadMin', formData)
+    console.log(response.status)
+}
+
 
 </script>
 
@@ -173,12 +210,13 @@ const deleteAlt = (index : number) => {
         </div>
         </div>
         </div>
-         <button type="submit" class="button mb-4 is-link" aria-label="save">
-        <span>
-               <i class="fas fa-solid fa-upload"></i>
-               </span>
+         <button class="button mb-4 is-link" aria-label="save" onclick={() => uploadAll()}>
+       Save All
         </button>
         {#if lith}
+                 <button class="button mb-4 is-link" aria-label="save" onclick={() => uploadLith()}>
+       Save Lith
+        </button>
         <div class="box mt-2">
         <h1 class="title is-4">Lithology</h1>
         <Logform log={lithlog} logtype="lithological" logDelete={deleteLith}/>
@@ -186,6 +224,9 @@ const deleteAlt = (index : number) => {
         </div>
         {/if}
         {#if alteration}
+                        <button class="button mb-4 is-link" aria-label="save" onclick={() => uploadAlt()}>
+       Save Alteration
+        </button>
         <div class="box mt-2">
         <h1 class="title is-4">Alteration</h1>
         <Logform log={altlog} logtype="alteration" logDelete={deleteAlt}/>
@@ -193,6 +234,9 @@ const deleteAlt = (index : number) => {
         </div>
         {/if}
         {#if structure}
+                        <button class="button mb-4 is-link" aria-label="save" onclick={() => uploadStruc()}>
+       Save Structure
+        </button>
         <div class="box mt-2">
         <h1 class="title is-4">Structure</h1>
         <Logform log={struclog} logtype="structure" logDelete={deleteStruc}/>
@@ -200,6 +244,9 @@ const deleteAlt = (index : number) => {
         </div>
         {/if}
         {#if mineral}
+                        <button class="button mb-4 is-link" aria-label="save" onclick={() => uploadMin()}>
+       Save Mineral
+        </button>
         <div class="box mt-2">
         <h1 class="title is-4">Mineral</h1>
         {#each minlog as record (record.sampleid) }
