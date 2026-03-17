@@ -70,7 +70,7 @@ const { session } = await parent();
               else if (response === 401) {
                 const refreshtry = await refresh(session.refreshToken,cookies)
                 if(refreshtry) {
-                   const res = await drilltekService.editDrillhole(session.accessToken,drillhole,parseInt(params.holeid))
+                   const res = await drilltekService.editDrillhole(refreshtry.accessToken,drillhole,parseInt(params.holeid))
                    if(res === 201) {
                     return
                    }
