@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { drilltekService } from "$lib/services/drilltek-service";
 	import Banner from "$lib/ui/banner.svelte";
 	import Logform from "$lib/ui/logform.svelte";
 	import LogTable from "$lib/ui/logTable.svelte";
@@ -11,8 +10,12 @@
     let lith = $state(true);
     let structure = $state(false);
     let alteration = $state(false);
-    let mineral = $state(false)
-    let overview = $state(false)
+    let mineral = $state(false);
+    let overview = $state(false);
+    let success = $state(false);
+    let error = $state(false);
+    let successMessage = $state("");
+    let errorMessage = $state("")
     let lithlog = $state(data.lithlog || [{index:Math.random(), start:0, end:0, lithcode:"", comment:"", holeid:data.hole.holeid, userid:data.session.userid}])
     let altlog = $state(data.alterationlog || [{index:Math.random(), start:0, end:0, alterationcode:"", comment:"", holeid:data.hole.holeid, userid:data.session.userid}])
     let struclog = $state(data.structurelog || [{index:Math.random(), start:0, end:0, structurecode:"", comment:"", dip:0, holeid:data.hole.holeid, userid:data.session.userid}])
@@ -37,6 +40,10 @@
     alteration = false
     mineral = false
     active = "Overview"
+    success = false
+    error = false
+    errorMessage = ""
+    successMessage = ""
 }
 
     const showLith = () => {
@@ -46,6 +53,10 @@
     mineral = false
     overview = false
     active = "Lith"
+       success = false
+    error = false
+    errorMessage = ""
+    successMessage = ""
 }
 
     const showAlt = () => {
@@ -55,6 +66,10 @@
     mineral = false
     overview = false
     active = "Alt"
+       success = false
+    error = false
+    errorMessage = ""
+    successMessage = ""
 }
 
     const showStruc = () => {
@@ -64,6 +79,10 @@
     mineral = false
     overview = false
     active = "Struc"
+       success = false
+    error = false
+    errorMessage = ""
+    successMessage = ""
 }
 
     const showMin = () => {
@@ -73,6 +92,10 @@
     mineral = true
     overview = false
     active = "Min"
+       success = false
+    error = false
+    errorMessage = ""
+    successMessage = ""
 }
 
 const addLith = () => {
@@ -119,11 +142,27 @@ const deleteAlt = (index : number) => {
     altlog = altlog.filter((alt) => alt.index !== index)
 }
 
+
+// Does not work as intended, always displays lithlog uploaded. Error with sveltekit 
+// to be fixed 
 async function uploadLith () {
     const formData = new FormData()
     formData.append('lithLog', JSON.stringify(lithlog))
     const response = await axios.post('?/uploadLith', formData)
-    console.log(response.status)
+    error = false
+    success = false
+    if(response.status === 200) {
+        console.log(response.status)
+        console.log(typeof(response))
+        console.log(response.data.success)
+        success = true
+        successMessage = "Lithlog upload successful"
+    }
+    else {
+        console.log(response.data.success)
+        error = true
+        errorMessage = "Upload Unsuccessful, please try again"
+    }
 }
 
 async function uploadAlt () {
@@ -141,13 +180,6 @@ async function uploadStruc () {
 }
 
 async function uploadMin () {
-    const formData = new FormData()
-    formData.append('minLog', JSON.stringify(minlog))
-    const response = await axios.post('?/uploadMin', formData)
-    console.log(response.status)
-}
-
-async function uploadAll () {
     const formData = new FormData()
     formData.append('minLog', JSON.stringify(minlog))
     const response = await axios.post('?/uploadMin', formData)
@@ -210,9 +242,18 @@ async function uploadAll () {
         </div>
         </div>
         </div>
-         <button class="button mb-4 is-link" aria-label="save" onclick={() => uploadAll()}>
-       Save All
-        </button>
+        {#if success}
+        <article class="message is-success">
+            <div class="message-body">
+                {successMessage}
+            </div>
+        </article>
+        {/if}
+        {#if error}
+        <article class="message is-danger">
+            {errorMessage}
+        </article>
+        {/if}
         {#if lith}
                  <button class="button mb-4 is-link" aria-label="save" onclick={() => uploadLith()}>
        Save Lith

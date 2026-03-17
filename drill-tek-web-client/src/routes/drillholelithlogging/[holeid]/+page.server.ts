@@ -55,17 +55,17 @@ const { session } = await parent();
           if(res === 200) {
             const response = await drilltekService.addLithLog(session.accessToken, updatedLog )
             if(response === 201){
-              return "Lithlog Saved"
+              return {success: "y"}
             }
             else if (response === 401) {
               const refreshtry = await refresh(session.refreshToken,cookies)
                           if(refreshtry) {
-               const response = await drilltekService.addLithLog(session.accessToken, updatedLog )
+               const response = await drilltekService.addLithLog(refreshtry.accessToken, updatedLog )
                if(response === 201) {
-                return "Lithlog Saved"
+                return {success: "y"} 
                }
                else {
-                return "Unable to upload log, please check fields"
+                return {success: "n"}
                }
             }
             }
@@ -73,35 +73,37 @@ const { session } = await parent();
           else if (res === 401) {
             const refreshtry = await refresh(session.refreshToken,cookies)
             if(refreshtry) {
-               const res = await drilltekService.deleteLithLogByHoleid(session.accessToken, holeInt)
+               const res = await drilltekService.deleteLithLogByHoleid(refreshtry.accessToken, holeInt)
                if(res === 200) {
                 const response = await drilltekService.addLithLog(session.accessToken, updatedLog )
                  if(response === 201){
-              return "Lithlog Saved"
+              return {success:"y"}
             }
             else if (response === 401) {
               const refreshtry = await refresh(session.refreshToken,cookies)
                           if(refreshtry) {
-               const response = await drilltekService.addLithLog(session.accessToken, updatedLog )
+               const response = await drilltekService.addLithLog(refreshtry.accessToken, updatedLog )
                if(response === 201) {
-                return "Lithlog Saved"
+                return {success:"y"}
                }
                else {
-                return "Unable to upload log, please check fields"
+                return {success:"n"}
                }
               }
                }
                else {
-                return "Unable to upload log, please check fields"
+                return {success:"n"}
                }
             }
           }
         }
           else {
-            return "Unable to upload log, please check fields"
+            return {success:"n"}
           }
         }
+        return {success:"n"}
       }
+      
     }
   }
    
