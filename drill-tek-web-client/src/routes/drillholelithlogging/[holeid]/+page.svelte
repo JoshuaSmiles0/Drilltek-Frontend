@@ -258,7 +258,7 @@ async function uploadMin () {
                               Mineral
                             </button>
                         </li>
-                        {#if data.lithlog !== null}
+                        {#if data.lithlog !== null && data.alterationlog !== null && data.structurelog !== null && data.minerallog !== null}
                             <li>
                             <button class:is-active={"Overview" === active} class="button is-success" onclick={() => showOverview()}>
                               Overview
