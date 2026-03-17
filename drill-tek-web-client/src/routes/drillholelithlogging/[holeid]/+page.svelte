@@ -152,9 +152,6 @@ async function uploadLith () {
     error = false
     success = false
     if(response.status === 200) {
-        console.log(response.status)
-        console.log(typeof(response))
-        console.log(response.data.success)
         success = true
         successMessage = "Lithlog upload successful"
     }
@@ -170,6 +167,17 @@ async function uploadAlt () {
     formData.append('altLog', JSON.stringify(altlog))
     const response = await axios.post('?/uploadAlt', formData)
     console.log(response.status)
+    error = false
+    success = false
+    if(response.status === 200) {
+        success = true
+        successMessage = "Alteration log upload successful"
+    }
+    else {
+        console.log(response.data.success)
+        error = true
+        errorMessage = "Upload Unsuccessful, please try again"
+    }
 }
 
 async function uploadStruc () {
@@ -177,6 +185,17 @@ async function uploadStruc () {
     formData.append('strucLog', JSON.stringify(struclog))
     const response = await axios.post('?/uploadStruc', formData)
     console.log(response.status)
+    error = false
+    success = false
+    if(response.status === 200) {
+        success = true
+        successMessage = "Structure log upload successful"
+    }
+    else {
+        console.log(response.data.success)
+        error = true
+        errorMessage = "Upload Unsuccessful, please try again"
+    }
 }
 
 async function uploadMin () {
@@ -184,6 +203,17 @@ async function uploadMin () {
     formData.append('minLog', JSON.stringify(minlog))
     const response = await axios.post('?/uploadMin', formData)
     console.log(response.status)
+    error = false
+    success = false
+    if(response.status === 200) {
+        success = true
+        successMessage = "Mineral log upload successful"
+    }
+    else {
+        console.log(response.data.success)
+        error = true
+        errorMessage = "Upload Unsuccessful, please try again"
+    }
 }
 
 
