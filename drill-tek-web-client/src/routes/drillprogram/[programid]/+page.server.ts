@@ -54,7 +54,7 @@ const { session } = await parent();
             else if (response === 401) {
               const refreshtry = await refresh(session.refreshToken,cookies)
               if(refreshtry) {
-                 const res = await drilltekService.editProgram(session.accessToken,program,currentProgram)
+                 const res = await drilltekService.editProgram(refreshtry.accessToken,program,currentProgram)
                  if(res === 200) {
                   return
                  }
@@ -108,7 +108,7 @@ const { session } = await parent();
           else if (response === 401) {
             const refreshtry = await refresh(session.refreshToken,cookies)
             if(refreshtry) {
-               const res = await drilltekService.createDrillhole(session.accessToken,drillhole)
+               const res = await drilltekService.createDrillhole(refreshtry.accessToken,drillhole)
                if(res === 201) {
                 return
                }

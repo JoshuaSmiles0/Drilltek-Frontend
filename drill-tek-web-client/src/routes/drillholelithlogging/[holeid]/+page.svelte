@@ -1,6 +1,9 @@
 <script lang="ts">
 	import Banner from "$lib/ui/banner.svelte";
+	import HoleDetailsTable from "$lib/ui/holeDetailsTable.svelte";
+	import Logform from "$lib/ui/logform.svelte";
 	import LogTable from "$lib/ui/logTable.svelte";
+	import axios from "axios";
     import Chart from 'svelte-frappe-charts'
 
 
@@ -8,12 +11,20 @@
     let lith = $state(true);
     let structure = $state(false);
     let alteration = $state(false);
-    let mineral = $state(false)
-    let overview = $state(false)
+    let mineral = $state(false);
+    let overview = $state(false);
+    let success = $state(false);
+    let error = $state(false);
+    let successMessage = $state("");
+    let errorMessage = $state("")
+    let lithlog = $state(data.lithlog || [{index:Math.random(), start:0, end:0, lithcode:"", comment:"", holeid:data.hole.holeid, userid:data.session.userid}])
+    let altlog = $state(data.alterationlog || [{index:Math.random(), start:0, end:0, alterationcode:"", comment:"", holeid:data.hole.holeid, userid:data.session.userid}])
+    let struclog = $state(data.structurelog || [{index:Math.random(), start:0, end:0, structurecode:"", comment:"", dip:0, holeid:data.hole.holeid, userid:data.session.userid}])
+    let minlog = $state(data.minerallog || [{sampleid:Math.random().toString(), start:0, end:0, estimate:0,comment:"", sampletype:"SAMPLE", texture:"D", holeid:data.hole.holeid, userid:data.session.userid }])
 
     let active = $state("Lith")
 
-    const graphVals = data.lithlog.map((log) => ({
+    const graphVals = lithlog.map((log) => ({
         name: log.lithcode,
         values: [log.end - log.start]
     }))
@@ -30,6 +41,10 @@
     alteration = false
     mineral = false
     active = "Overview"
+    success = false
+    error = false
+    errorMessage = ""
+    successMessage = ""
 }
 
     const showLith = () => {
@@ -39,6 +54,10 @@
     mineral = false
     overview = false
     active = "Lith"
+       success = false
+    error = false
+    errorMessage = ""
+    successMessage = ""
 }
 
     const showAlt = () => {
@@ -48,6 +67,10 @@
     mineral = false
     overview = false
     active = "Alt"
+       success = false
+    error = false
+    errorMessage = ""
+    successMessage = ""
 }
 
     const showStruc = () => {
@@ -57,6 +80,10 @@
     mineral = false
     overview = false
     active = "Struc"
+       success = false
+    error = false
+    errorMessage = ""
+    successMessage = ""
 }
 
     const showMin = () => {
@@ -66,6 +93,128 @@
     mineral = true
     overview = false
     active = "Min"
+       success = false
+    error = false
+    errorMessage = ""
+    successMessage = ""
+}
+
+const addLith = () => {
+    const last = lithlog.at(-1)
+    lithlog = [... lithlog,{index:Math.random(), start:last.end, end:null, lithcode:"", comment:"", holeid:data.hole.holeid, userid:data.session.userid}]
+    console.log(lithlog)
+}
+
+const addAlt = () => {
+    const last = altlog.at(-1)
+    altlog = [... altlog,{index:Math.random(), start:last.end, end:null, alterationcode:"", comment:"", holeid:data.hole.holeid, userid:data.session.userid}]
+}
+
+const addStruc = () => {
+    const last = struclog.at(-1)
+    struclog = [... struclog,{index:Math.random(), start:last.end, end:null, structurecode:"", comment:"", dip:null, holeid:data.hole.holeid, userid:data.session.userid}]
+}
+
+const addMin = () => {
+    const last = minlog.at(-1)
+    const lastID = last.sampleid
+    let lastArr = lastID.split("")
+    const newNum = parseInt(lastArr[lastArr.length -1]) + 1
+    const newChar = newNum.toString()
+    lastArr.pop()
+    lastArr.push(newChar)
+    const newId = lastArr.join("")
+    minlog = [... minlog,{sampleid:newId, start:last.end, end:null, estimate:null,comment:"", sampletype:"SAMPLE", texture:"D", holeid:data.hole.holeid, userid:data.session.userid }]
+}
+
+const deleteMin = (sampleid: string) => {
+    minlog = minlog.filter((min) => min.sampleid !== sampleid)
+}
+
+const deleteLith = (index: number) => {
+    lithlog = lithlog.filter((lith) => lith.index !== index)
+}
+
+const deleteStruc = (index: number) => {
+    struclog = struclog.filter((struc) => struc.index !== index)
+}
+
+const deleteAlt = (index : number) => {
+    altlog = altlog.filter((alt) => alt.index !== index)
+}
+
+
+// Does not work as intended, always displays lithlog uploaded. Error with sveltekit 
+// to be fixed 
+async function uploadLith () {
+    const formData = new FormData()
+    formData.append('lithLog', JSON.stringify(lithlog))
+    const response = await axios.post('?/uploadLith', formData)
+    error = false
+    success = false
+    if(response.status === 200) {
+        success = true
+        successMessage = "Lithlog upload successful"
+    }
+    else {
+        console.log(response.data.success)
+        error = true
+        errorMessage = "Upload Unsuccessful, please try again"
+    }
+}
+
+async function uploadAlt () {
+    const formData = new FormData()
+    formData.append('altLog', JSON.stringify(altlog))
+    const response = await axios.post('?/uploadAlt', formData)
+    console.log(response.status)
+    error = false
+    success = false
+    if(response.status === 200) {
+        success = true
+        successMessage = "Alteration log upload successful"
+    }
+    else {
+        console.log(response.data.success)
+        error = true
+        errorMessage = "Upload Unsuccessful, please try again"
+    }
+}
+
+async function uploadStruc () {
+    const formData = new FormData()
+    formData.append('strucLog', JSON.stringify(struclog))
+    const response = await axios.post('?/uploadStruc', formData)
+    console.log(response.status)
+    error = false
+    success = false
+    if(response.status === 200) {
+        success = true
+        successMessage = "Structure log upload successful"
+    }
+    else {
+        console.log(response.data.success)
+        error = true
+        errorMessage = "Upload Unsuccessful, please try again"
+    }
+}
+
+async function uploadMin () {
+    const formData = new FormData()
+    formData.append('minLog', JSON.stringify(minlog))
+    const response = await axios.post('?/uploadMin', formData)
+    console.log(response.status)
+    error = false
+    success = false
+    if(response.status === 200) {
+        success = true
+        successMessage = "Mineral log upload successful"
+    }
+    else {
+        console.log(response.data.success)
+        error = true
+        errorMessage = "Upload Unsuccessful, please try again"
+    }
 }
 
 
@@ -83,10 +232,14 @@
 </style>
 
 <Banner title={`DDH-${data.hole.holeid}`} buttonName={data.hole.programid} link={`/drillprogramlogging/${data.hole.programid}`} />
-
+{#if !overview}
+    <div class="container mt-2">
+<HoleDetailsTable hole={{"holeid":data.hole.holeid, "dip":data.hole.dip, "azimuth":data.hole.azimuth, "length":data.hole.length}} />
+</div>
+{/if}
 <div class="columns">
-    <div class="column is-8">
-        <div class="hero is-success mt-4">
+    <div class="column is-6">
+        <div class="hero is-success mt-2">
             <div class="hero-foot">
                 <div class="tabs is-boxed is-fullwidth">
                     <div class="container">
@@ -110,24 +263,116 @@
                               Mineral
                             </button>
                         </li>
-                        <li>
+                        {#if data.lithlog !== null && data.alterationlog !== null && data.structurelog !== null && data.minerallog !== null}
+                            <li>
                             <button class:is-active={"Overview" === active} class="button is-success" onclick={() => showOverview()}>
                               Overview
                               </button>
                         </li>
+                        {/if}
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
+        
         </div>
         </div>
+        {#if success}
+        <article class="message is-success">
+            <div class="message-body">
+                {successMessage}
+            </div>
+        </article>
+        {/if}
+        {#if error}
+        <article class="message is-danger">
+            {errorMessage}
+        </article>
+        {/if}
         {#if lith}
+                 <button class="button mb-4 is-link" aria-label="save" onclick={() => uploadLith()}>
+       Save Lith
+        </button>
         <div class="box mt-2">
         <h1 class="title is-4">Lithology</h1>
-        <LogTable log={data.lithlog} excludeHeader="index" />
+        <Logform log={lithlog} logtype="lithological" logDelete={deleteLith}/>
+        <button type="button" class="button is-success" onclick={() => addLith()}>Add</button>
         </div>
         {/if}
+        {#if alteration}
+                        <button class="button mb-4 is-link" aria-label="save" onclick={() => uploadAlt()}>
+       Save Alteration
+        </button>
+        <div class="box mt-2">
+        <h1 class="title is-4">Alteration</h1>
+        <Logform log={altlog} logtype="alteration" logDelete={deleteAlt}/>
+         <button class="button is-success" onclick={() => addAlt()}>Add</button>
+        </div>
+        {/if}
+        {#if structure}
+                        <button class="button mb-4 is-link" aria-label="save" onclick={() => uploadStruc()}>
+       Save Structure
+        </button>
+        <div class="box mt-2">
+        <h1 class="title is-4">Structure</h1>
+        <Logform log={struclog} logtype="structure" logDelete={deleteStruc}/>
+         <button class="button is-success" onclick={() => addStruc()}>Add</button>
+        </div>
+        {/if}
+        {#if mineral}
+                        <button class="button mb-4 is-link" aria-label="save" onclick={() => uploadMin()}>
+       Save Mineral
+        </button>
+        <div class="box mt-2">
+        <h1 class="title is-4">Mineral</h1>
+        {#each minlog as record (record.sampleid) }
+    <div class="field is-horizontal">
+        <div class="field-body">
+        <input bind:value={record.sampleid} class="input" type="text" placeholder="sample Id">
+        <input bind:value={record.start} class="input" type="number" placeholder="from">
+        <input bind:value={record.end} class="input" type="number" placeholder="to">
+        <input bind:value={record.estimate} class="input" type="number" placeholder="est">
+        <input bind:value={record.comment} class="input" type="text" placeholder="comment">
+         <div class="control">
+    <select class="select" bind:value={record.sampletype}>
+ <option value="BLANK">BLANK</option>
+  <option value="STD1">STD1</option>
+  <option value="STD2">STD2</option>
+  <option value="STD3">STD3</option>
+  <option value="SAMPLE">SAMPLE</option>
+    </select>
+</div>
+ <div class="control">
+    <select class="select" bind:value={record.texture}>
+ <option value="D">D</option>
+  <option value="R">R</option>
+  <option value="M">M</option>
+  <option value="Sm">Sm</option>
+  <option value="X">X</option>
+  <option value="F">F</option>
+  <option value="Rm">Rm</option>
+  <option value="S">S</option>
+  <option value="V">V</option>
+  <option value="T">T</option>
+  <option value="B">B</option>
+    </select>
+</div>
+<input bind:value={record.holeid} class="input" type="hidden">
+<input bind:value={record.userid} class="input" type="hidden">
+<button type="button" class="button is-danger" aria-label="delete" onclick={() => deleteMin(record.sampleid)}>
+<span>
+<i class=" fas fa-solid fa-trash"></i>
+</span>
+</button>
+        </div>
+    </div>
+{/each}
+
+<button class="button is-success" onclick={() => addMin()}>Add</button>
+        </div>
+        {/if}
+
         {#if overview}
         <div class="columns">
         <div class="column is-7">

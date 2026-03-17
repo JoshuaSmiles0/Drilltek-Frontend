@@ -1,4 +1,4 @@
-import type { Session, DrillProgram, AddProgram, editProgram, Drillhole, AddDrillhole, EditDrillhole, Lithlog, Alterationlog, Structurelog, Minerallog } from "$lib/types/drilltek-types"
+import type { Session, DrillProgram, AddProgram, editProgram, Drillhole, AddDrillhole, EditDrillhole, Lithlog, Alterationlog, Structurelog, Minerallog, AddLithLog, AddAlterationLog, AddStructureLog, AddMineralLog } from "$lib/types/drilltek-types"
 import axios from "axios";
 
 export const drilltekService = {
@@ -288,10 +288,53 @@ export const drilltekService = {
                 params:{holeid}
             })
             console.log(`lith logs for ${holeid} returned`)
+            if(response.data.data.length !== 0) {
             return response.data.data as Lithlog[]
+            }
+            else {
+                return null
+            }
         }
         catch(error) {
             console.log(error)
+        }
+    },
+
+    async deleteLithLogByHoleid(token:string, holeid:number) {
+        try {
+            axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+            const response = await axios.delete(`${this.baseUrl}lithlog/deleteLithLog`, {
+                params:{holeid:holeid}
+            })
+            return response.status
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        catch(error: any) {
+            console.log(error)
+            if(error.response.status) {
+            return error.response.status
+            }
+            else {
+                return 500
+            }
+        }
+    },
+
+    async addLithLog(token:string, logs:AddLithLog[]) {
+        try {
+            axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+            const response = await axios.post(`${this.baseUrl}lithlog/addLithLog`, logs)
+            return response.status
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        catch(error: any) {
+            console.log(error)
+            if(error.response.status) {
+            return error.response.status
+            }
+            else {
+                return 500
+            }
         }
     },
 
@@ -302,10 +345,54 @@ export const drilltekService = {
                 params:{holeid}
             })
             console.log(`Alteration logs for ${holeid} returned`)
+            if(response.data.data.length !== 0) {
             return response.data.data as Alterationlog[]
+            }
+            else {
+                return null
+            }
         }
         catch(error) {
             console.log(error)
+            return null
+        }
+    },
+
+     async deleteAlterationLogByHoleid(token:string, holeid:number) {
+        try {
+            axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+            const response = await axios.delete(`${this.baseUrl}altlog/deleteAlterationLog`, {
+                params:{holeid:holeid}
+            })
+            return response.status
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        catch(error: any) {
+            console.log(error)
+            if(error.response.status) {
+            return error.response.status
+            }
+            else {
+                return 500
+            }
+        }
+    },
+
+    async addAlterationLog(token:string, logs:AddAlterationLog[]) {
+        try {
+            axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+            const response = await axios.post(`${this.baseUrl}altlog/addAlterationLog`, logs)
+            return response.status
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        catch(error: any) {
+            console.log(error)
+            if(error.response.status) {
+            return error.response.status
+            }
+            else {
+                return 500
+            }
         }
     },
 
@@ -316,12 +403,57 @@ export const drilltekService = {
                 params:{holeid}
             })
             console.log(`structure logs for ${holeid} returned`)
+            if(response.data.data.length !== 0) {
             return response.data.data as Structurelog[]
+            }
+            else {
+                return null
+            }
         }
         catch(error) {
             console.log(error)
+            return null
         }
     },
+
+    async deleteStructureLogByHoleid(token:string, holeid:number) {
+        try {
+            axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+            const response = await axios.delete(`${this.baseUrl}struclog/deleteStructureLog`, {
+                params:{holeid:holeid}
+            })
+            return response.status
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        catch(error: any) {
+            console.log(error)
+            if(error.response.status) {
+            return error.response.status
+            }
+            else {
+                return 500
+            }
+        }
+    },
+
+    async addStructureLog(token:string, logs:AddStructureLog[]) {
+        try {
+            axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+            const response = await axios.post(`${this.baseUrl}struclog/addStructureLog`, logs)
+            return response.status
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        catch(error: any) {
+            console.log(error)
+            if(error.response.status) {
+            return error.response.status
+            }
+            else {
+                return 500
+            }
+        }
+    },
+
 
         async getMineralLog(token:string, holeid:number) {
         try{
@@ -330,10 +462,55 @@ export const drilltekService = {
                 params:{holeid}
             })
             console.log(`mineral logs for ${holeid} returned`)
-            return response.data.data as Minerallog[]
+            if(response.data.data.length !== 0) {
+              return response.data.data as Minerallog[]
+            }
+            else {
+                return null
+            }
+            
         }
         catch(error) {
             console.log(error)
+            return null
+        }
+    },
+
+        async deleteMineralLogByHoleid(token:string, holeid:number) {
+        try {
+            axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+            const response = await axios.delete(`${this.baseUrl}minlog/deleteMineralLog`, {
+                params:{holeid:holeid}
+            })
+            return response.status
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        catch(error: any) {
+            console.log(error)
+            if(error.response.status) {
+            return error.response.status
+            }
+            else {
+                return 500
+            }
+        }
+    },
+
+    async addMineralLog(token:string, logs:AddMineralLog[]) {
+        try {
+            axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+            const response = await axios.post(`${this.baseUrl}minlog/addMineralLog`, logs)
+            return response.status
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        catch(error: any) {
+            console.log(error)
+            if(error.response.status) {
+            return error.response.status
+            }
+            else {
+                return 500
+            }
         }
     },
 
