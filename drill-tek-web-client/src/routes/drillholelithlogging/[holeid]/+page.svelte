@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Banner from "$lib/ui/banner.svelte";
+	import HoleDetailsTable from "$lib/ui/holeDetailsTable.svelte";
 	import Logform from "$lib/ui/logform.svelte";
 	import LogTable from "$lib/ui/logTable.svelte";
 	import axios from "axios";
@@ -231,10 +232,14 @@ async function uploadMin () {
 </style>
 
 <Banner title={`DDH-${data.hole.holeid}`} buttonName={data.hole.programid} link={`/drillprogramlogging/${data.hole.programid}`} />
-
+{#if !overview}
+    <div class="container mt-2">
+<HoleDetailsTable hole={{"holeid":data.hole.holeid, "dip":data.hole.dip, "azimuth":data.hole.azimuth, "length":data.hole.length}} />
+</div>
+{/if}
 <div class="columns">
-    <div class="column is-8">
-        <div class="hero is-success mt-4">
+    <div class="column is-6">
+        <div class="hero is-success mt-2">
             <div class="hero-foot">
                 <div class="tabs is-boxed is-fullwidth">
                     <div class="container">
@@ -270,6 +275,7 @@ async function uploadMin () {
                 </div>
             </div>
         </div>
+        
         </div>
         </div>
         {#if success}
