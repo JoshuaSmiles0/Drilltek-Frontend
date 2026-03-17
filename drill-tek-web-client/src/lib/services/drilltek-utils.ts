@@ -2,7 +2,7 @@ import { dev } from "$app/environment";
 import axios from "axios";
 import { drilltekService } from "./drilltek-service"
 import type { Cookies } from "@sveltejs/kit"
-import type { AddLithLog,  Session } from "$lib/types/drilltek-types";
+import type { AddAlterationLog, AddLithLog,  AddStructureLog,  Session } from "$lib/types/drilltek-types";
 
 export async function refresh(token:string|null, cookies:Cookies) {
 try {
@@ -103,6 +103,147 @@ export function setLithType(lithlog:AddLithLog[]) {
         }
     })
     return lithlog as AddLithLog[]
+}
+
+export function setAlterationType(alterationlog:AddAlterationLog[]) {
+    alterationlog.forEach(log => {
+        const code = log.alterationcode
+        switch(code) {
+            case "BMB_I":
+                log.alterationtype = "Incipient Black Matrix Breccia";
+                break;
+            case "BMB_W":
+                log.alterationtype = "Weak Black Matrix Breccia";
+                break;
+            case "BMB":
+                log.alterationtype = "Black Matrix Breccia";
+                break;
+            case "BMB_S":
+                log.alterationtype = "Black Matrix Breccia";
+                break;
+            case "WMB_I":
+                log.alterationtype = "Incipient White Matrix Breccia";
+                break;
+            case "WMB_W":
+                log.alterationtype = "Weak White Matrix Breccia";
+                break;
+            case "WMB":
+                log.alterationtype = "White Matrix Breccia";
+                break;
+            case "WMB_S":
+                log.alterationtype = "Strong White Matrix Breccia";
+                break;
+            case "FE_Ox":
+                log.alterationtype = "Fe Oxides";
+                break;
+            case "MN_OX":
+                log.alterationtype = "Mn Oxides";
+                break;
+            case "LE_W":
+                log.alterationtype = "Weak Leaching";
+                break;
+            case "LE":
+                log.alterationtype = "Leaching";
+                break;
+            case "LE_S":
+                log.alterationtype = "Strong Leaching";
+                break;
+            case "WTD_W":
+                log.alterationtype = "Weak Weathering";
+                break;
+            case "WTD":
+                log.alterationtype = "Weathering";
+                break;
+            case "WTD_S":
+                log.alterationtype = "Strong Weathering";
+                break;
+            case "BHY_Dol":
+                log.alterationtype = "Black Hydrothermal Dolomite";
+                break;
+            case "WHY_Dol":
+                log.alterationtype = "White Hydrothermal Dolomite";
+                break;
+        }
+    })
+    return alterationlog as AddAlterationLog[]
+}
+
+export function setStructureType(structurelog:AddStructureLog[]) {
+    structurelog.forEach(log => {
+        const code = log.structurecode
+        switch(code) {
+            case "F1":
+                log.structuretype = "Weak Fault";
+                break;
+            case "F2":
+                log.structuretype = "Moderate Fault";
+                break;
+            case "F3":
+                log.structuretype = "Strong Fault";
+                break;
+            case "F4":
+                log.structuretype = "Strongest Fault";
+                break;
+            case "FLT":
+                log.structuretype = "Fault Zone";
+                break;
+            case "GOU":
+                log.structuretype = "Fault Gouge";
+                break;
+            case "HY_BX":
+                log.structuretype = "Hydrothermal Breccia";
+                break;
+            case "BX":
+                log.structuretype = "Non Hydrothermal Breccia";
+                break;
+            case "VCAL":
+                log.structuretype = "Calcite Vein";
+                break;
+            case "VDOL":
+                log.structuretype = "Dolomite Vein";
+                break;
+            case "VPDOL":
+                log.structuretype = "Pink Plug dolomite vein";
+                break;
+            case "VQTZ":
+                log.structuretype = "Quartz Vein";
+                break;
+            case "VHAEM":
+                log.structuretype = "Haematite Vein";
+                break;
+            case "J1":
+                log.structuretype = "Weak Joint";
+                break;
+            case "J2":
+                log.structuretype = "Moderate Joint";
+                break;
+            case "J3":
+                log.structuretype = "Strong Joint";
+                break;
+            case "J4":
+                log.structuretype = "Strongest Joint";
+                break;
+            case "S1":
+                log.structuretype = "Weak Slip Plane";
+                break;
+            case "S2":
+                log.structuretype = "Moderate Slip Plane";
+                break;
+            case "S3":
+                log.structuretype = "Strong Slip Plane";
+                break;
+            case "S4":
+                log.structuretype = "Strongest Slip Plane";
+                break;
+            case "FLD":
+                log.structuretype = "Fold";
+            break;
+            case "B":
+                log.structuretype = "Bedding";
+            break;
+        }
+    })
+    return structurelog as AddStructureLog[]
 }
 
 

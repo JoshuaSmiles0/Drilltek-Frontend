@@ -75,7 +75,7 @@ const { session } = await parent();
             if(refreshtry) {
                const res = await drilltekService.deleteLithLogByHoleid(refreshtry.accessToken, holeInt)
                if(res === 200) {
-                const response = await drilltekService.addLithLog(session.accessToken, updatedLog )
+                const response = await drilltekService.addLithLog(refreshtry.accessToken, updatedLog )
                  if(response === 201){
               return {success:"y"}
             }
