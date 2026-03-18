@@ -1,5 +1,6 @@
 import type { Session, DrillProgram, AddProgram, editProgram, Drillhole, AddDrillhole, EditDrillhole, Lithlog, Alterationlog, Structurelog, Minerallog, AddLithLog, AddAlterationLog, AddStructureLog, AddMineralLog } from "$lib/types/drilltek-types"
 import axios from "axios";
+import { ref } from "node:process";
 
 export const drilltekService = {
 
@@ -513,6 +514,25 @@ export const drilltekService = {
             }
         }
     },
+
+    async backlistToken(token:string, refreshToken:string) {
+        try {
+            axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+            const response = await axios.post(`${this.baseUrl}user/logout`, {
+                refresh: refreshToken
+            })
+            return response.status
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        catch(error:any) {
+            if(error.response.status) {
+            return error.response.status
+            }
+            else {
+                return 500
+            }
+        }
+    }
 
 
 
