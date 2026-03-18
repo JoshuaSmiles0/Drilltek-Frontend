@@ -17,7 +17,7 @@
                                 </span>
                                 </div>
                             </div>
-        <UserForm/>
+        <UserForm setPassword={true}/>
         <button class="button is-success">Reset Password</button>
         </form>
     </div>
