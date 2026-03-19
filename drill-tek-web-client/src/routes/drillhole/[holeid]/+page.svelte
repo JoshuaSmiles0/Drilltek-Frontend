@@ -1,19 +1,12 @@
 <script lang="ts">
 	import Banner from "$lib/ui/banner.svelte";
-	import EditDrillholeForm from "$lib/ui/editDrillholeForm.svelte";
+	import Modal from "$lib/ui/modal.svelte";
 
  // eslint-disable-next-line @typescript-eslint/no-explicit-any
  let { data }: any = $props();
 
 let editDrillholeModal = $state(false)
 
-const showeditDrillhole = () => {
- editDrillholeModal = true
-}
-
-const hideeditDrillhole = () => {
-    editDrillholeModal = false
-}
 </script>
 
 <Banner title="DDH-{data.drillhole.holeid}" buttonName={data.drillhole.programid} link="/drillprogram/{data.drillhole.programid}" />
@@ -58,24 +51,6 @@ const hideeditDrillhole = () => {
             </tr>
         </tbody>
      </table>
-     <button class="button is-success" onclick={()=> showeditDrillhole()}>Edit</button>
+    <Modal boolean={editDrillholeModal} type="editDrillhole" verb="Edit" formData={data.drillhole} title="Please edit then submit your drillhole details" action="submit" />
 </div>
 
-<div class="modal {editDrillholeModal ? 'is-active' : ''}">
-              <div class="modal-background"></div>
-                <div class="modal-card">
-                    <div class="modal-card-head">
-                        <div class="modal-card-title has-text-centered">
-                            <h1 class="title is-4">Please edit then submit your drillhole details <button class="delete" aria-label="close" onclick={() => hideeditDrillhole()}></button></h1>
-                        </div>
-                    </div>
-                    <div class="modal-card-body">
-                        <form method="post" action="?/editDrillhole">
-                             <EditDrillholeForm drillhole={data.drillhole} />
-                            <button class="button is-success">Submit</button>
-                        </form>
-                    </div>
-                    <div class="modal-card-foot"></div>
-                </div>
-                <button class="modal-close is-large" aria-label="close" onclick={() => hideeditDrillhole()}></button>
-                 </div>
