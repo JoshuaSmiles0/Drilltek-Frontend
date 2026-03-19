@@ -2,6 +2,7 @@
 	import AddDrillholeForm from "$lib/ui/addDrillholeForm.svelte";
 import Banner from "$lib/ui/banner.svelte";
 	import EditProgramForm from "$lib/ui/editProgramForm.svelte";
+	import Modal from "$lib/ui/modal.svelte";
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let { data }: any = $props();
@@ -9,21 +10,6 @@ import Banner from "$lib/ui/banner.svelte";
     let editProgramModal = $state(false)
     let addDrillholeModal = $state(false)
 
-const showeditProgram = () => {
- editProgramModal = true
-}
-
-const hideeditProgram = () => {
-    editProgramModal = false
-}
-
-const showaddDrillhole = () => {
- addDrillholeModal = true
-}
-
-const hideaddDrillhole = () => {
-    addDrillholeModal = false
-}
 </script>
 
 <Banner title={data.program.programid} buttonName="Drilling Portal" link="/drillingportal" />
@@ -57,7 +43,7 @@ const hideaddDrillhole = () => {
             </tr>
         </tbody>
      </table>
-     <button class="button is-success" onclick={()=>showeditProgram()}>Edit</button>
+     <Modal boolean={editProgramModal} type="editProgram" verb="Edit" formData={data.program} title="Please edit then submit your program details" action="Submit" />
 </div>
 
 <h1 class="title is-3">Drillholes:</h1>
@@ -78,42 +64,6 @@ const hideaddDrillhole = () => {
         </div>
     </div>
 {/each}
-<button class="button is-success" onclick={()=>showaddDrillhole()}>Add Drillhole</button>
+<Modal boolean={addDrillholeModal} type="addDrillhole" verb="add" formData="" title="Please enter your Drillhole details" action="add" />
 
-<div class="modal {editProgramModal ? 'is-active' : ''}">
-              <div class="modal-background"></div>
-                <div class="modal-card">
-                    <div class="modal-card-head">
-                        <div class="modal-card-title has-text-centered">
-                            <h1 class="title is-4">Please edit then submit your program details <button class="delete" aria-label="close" onclick={() => hideeditProgram()}></button></h1>
-                        </div>
-                    </div>
-                    <div class="modal-card-body">
-                        <form method="post" action="?/editProgram">
-                             <EditProgramForm program={data.program} />
-                            <button class="button is-success">Submit</button>
-                        </form>
-                    </div>
-                    <div class="modal-card-foot"></div>
-                </div>
-                <button class="modal-close is-large" aria-label="close" onclick={() => hideeditProgram()}></button>
-                 </div>
 
-<div class="modal {addDrillholeModal ? 'is-active' : ''}">
-              <div class="modal-background"></div>
-                <div class="modal-card">
-                    <div class="modal-card-head">
-                        <div class="modal-card-title has-text-centered">
-                            <h1 class="title is-4">Please enter your Drillhole details <button class="delete" aria-label="close" onclick={() => hideaddDrillhole()}></button></h1>
-                        </div>
-                    </div>
-                    <div class="modal-card-body">
-                        <form method="post" action="?/addDrillhole">
-                           <AddDrillholeForm />
-                            <button class="button is-success">add</button>
-                        </form>
-                    </div>
-                    <div class="modal-card-foot"></div>
-                </div>
-                <button class="modal-close is-large" aria-label="close" onclick={() => hideaddDrillhole()}></button>
-                 </div>

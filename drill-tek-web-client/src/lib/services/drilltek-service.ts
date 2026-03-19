@@ -1,6 +1,6 @@
 import type { Session, DrillProgram, AddProgram, editProgram, Drillhole, AddDrillhole, EditDrillhole, Lithlog, Alterationlog, Structurelog, Minerallog, AddLithLog, AddAlterationLog, AddStructureLog, AddMineralLog } from "$lib/types/drilltek-types"
 import axios from "axios";
-import { ref } from "node:process";
+
 
 export const drilltekService = {
 
