@@ -9,6 +9,7 @@ import Banner from "$lib/ui/banner.svelte";
 
     let editProgramModal = $state(false)
     let addDrillholeModal = $state(false)
+    let uploadDrillholeModal = $state(false)
     let search = $state() as number
 
 let filteredHoles = $derived(
@@ -64,6 +65,9 @@ function clearSearch() {
 <div class="columns">
     <div class="column is-1">
 <Modal boolean={addDrillholeModal} type="addDrillhole" verb="add" formData="" title="Please enter your Drillhole details" action="add" />
+    </div>
+    <div class="column is-1">
+        <Modal boolean={uploadDrillholeModal} type="uploadHoles" verb="Upload" formData="" title="Please select your drillhole file" action="Upload"/>
     </div>
     <div class="column is-1">
 <a href="/files/drilltek_drillhole_upload_template.csv" download="drilltek_drillhole_upload_template.csv" class="button is-success">Download Template</a>
