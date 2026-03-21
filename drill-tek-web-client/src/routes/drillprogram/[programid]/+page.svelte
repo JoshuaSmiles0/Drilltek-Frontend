@@ -61,4 +61,11 @@ function clearSearch() {
 <h1 class="title is-3">Drillholes:</h1>
 <SearchBar bind:search={search}  clear={clearSearch} type="hole" />
 <ListItem type="holes" subtype="drilling" data={filteredHoles} />
+<div class="columns">
+    <div class="column is-1">
 <Modal boolean={addDrillholeModal} type="addDrillhole" verb="add" formData="" title="Please enter your Drillhole details" action="add" />
+    </div>
+    <div class="column is-1">
+<a href="/files/drilltek_drillhole_upload_template.csv" download="drilltek_drillhole_upload_template.csv" class="button is-success">Download Template</a>
+    </div>
+</div>
