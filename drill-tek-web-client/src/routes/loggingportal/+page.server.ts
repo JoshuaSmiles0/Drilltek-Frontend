@@ -11,7 +11,8 @@ const { session } = await parent();
     const programs = await drilltekService.getPrograms(session.accessToken)
     console.log(programs)
     return {
-      programs
+      programs,
+      session
   }}
   catch(error) {
     console.log(error)

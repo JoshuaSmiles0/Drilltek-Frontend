@@ -23,7 +23,7 @@ function clearSearch() {
 
 </script>
 
-<Banner title="Drilling Portal" buttonName="Back" link="/mainportal" />
+<Banner title="Drilling Portal" buttonName="Back" link="/mainportal" email={data.session.email} />
 
 <SearchBar bind:search={search}  clear={clearSearch} type="program" />
 

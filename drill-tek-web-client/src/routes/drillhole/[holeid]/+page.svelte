@@ -9,7 +9,7 @@ let editDrillholeModal = $state(false)
 
 </script>
 
-<Banner title="DDH-{data.drillhole.holeid}" buttonName={data.drillhole.programid} link="/drillprogram/{data.drillhole.programid}" />
+<Banner title="DDH-{data.drillhole.holeid}" buttonName={data.drillhole.programid} link="/drillprogram/{data.drillhole.programid}" email={data.email} />
 <div class="box mt-4">
      <h1 class="title is-3">Details:</h1>
      <table class="table is-bordered is-hoverable is-fullwidth mb-6">

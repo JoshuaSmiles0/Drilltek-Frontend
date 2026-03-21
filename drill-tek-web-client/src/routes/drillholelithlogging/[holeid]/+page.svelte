@@ -281,7 +281,7 @@ async function downloadMin() {
     }
 </style>
 
-<Banner title={`DDH-${data.hole.holeid}`} buttonName={data.hole.programid} link={`/drillprogramlogging/${data.hole.programid}`} />
+<Banner title={`DDH-${data.hole.holeid}`} buttonName={data.hole.programid} link={`/drillprogramlogging/${data.hole.programid}`} email={data.session.email} />
 {#if !overview}
     <div class="container mt-2">
 <HoleDetailsTable hole={{"holeid":data.hole.holeid, "dip":data.hole.dip, "azimuth":data.hole.azimuth, "length":data.hole.length}} />

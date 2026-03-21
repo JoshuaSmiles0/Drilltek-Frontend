@@ -23,7 +23,7 @@ function clearSearch() {
 </script>
 
 
-<Banner title={data.program} buttonName="Logging Portal" link="/loggingportal" />
+<Banner title={data.program} buttonName="Logging Portal" link="/loggingportal" email={data.session.email} />
 
 <h1 class="title is-3 mt-2">Drillholes:</h1>
 <SearchBar bind:search={search}  clear={clearSearch} type="hole" />

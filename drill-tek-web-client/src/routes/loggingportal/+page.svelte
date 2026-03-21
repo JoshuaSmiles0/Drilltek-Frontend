@@ -20,6 +20,6 @@ function clearSearch() {
 }
 </script>
 
-<Banner title="Logging Portal" buttonName="Back" link="/mainportal" />
+<Banner title="Logging Portal" buttonName="Back" link="/mainportal" email={data.session.email} />
 <SearchBar bind:search={search}  clear={clearSearch} type="program" />
 <ListItem type="program" subtype="logging" data={filteredPrograms} />

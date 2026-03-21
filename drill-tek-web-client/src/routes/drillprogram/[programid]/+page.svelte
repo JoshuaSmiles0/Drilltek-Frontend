@@ -25,7 +25,7 @@ function clearSearch() {
 }
 </script>
 
-<Banner title={data.program.programid} buttonName="Drilling Portal" link="/drillingportal" />
+<Banner title={data.program.programid} buttonName="Drilling Portal" link="/drillingportal" email={data.email} />
 <div class="box mt-4">
      <h1 class="title is-3">Details:</h1>
      <table class="table is-bordered is-hoverable is-fullwidth mb-6">
