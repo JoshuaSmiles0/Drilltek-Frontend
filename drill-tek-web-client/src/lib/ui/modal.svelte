@@ -3,6 +3,7 @@
 	import EditDrillholeForm from "./editDrillholeForm.svelte";
 	import EditProgramForm from "./editProgramForm.svelte";
 	import ProgramForm from "./programForm.svelte";
+	import UploadFile from "./uploadFile.svelte";
 
     let {boolean=$bindable(), type, verb, formData, title, action} = $props()
 
@@ -64,6 +65,13 @@ const hideModal = () => {
                             </div>
                             <button class="button is-success">login</button>
                         </form>
+                    {/if}
+                    {#if type === "uploadHoles"}
+                    <form method="post" action="?/uploadHoles" enctype="multipart/form-data">
+                    <UploadFile/>
+                    <button class="button is-success"> {action} </button>
+                    </form>
+                    
                     {/if}
                     </div>
                     <div class="modal-card-foot"></div>

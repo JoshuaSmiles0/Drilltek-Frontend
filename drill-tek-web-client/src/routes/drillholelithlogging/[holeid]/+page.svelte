@@ -1,9 +1,11 @@
 <script lang="ts">
+	import type { Lithlog } from "$lib/types/drilltek-types";
 	import Banner from "$lib/ui/banner.svelte";
 	import HoleDetailsTable from "$lib/ui/holeDetailsTable.svelte";
 	import Logform from "$lib/ui/logform.svelte";
 	import LogTable from "$lib/ui/logTable.svelte";
 	import axios from "axios";
+	import Papa from "papaparse";
     import Chart from 'svelte-frappe-charts'
 
 
@@ -217,6 +219,54 @@ async function uploadMin () {
     }
 }
 
+async function downloadLith() {
+     const lith = data.lithlog
+     const csvData = Papa.unparse(lith)
+     const file = new Blob([csvData], {type:'text/csv'})
+     const download = URL.createObjectURL(file)
+
+     const a = document.createElement('a');
+     a.href = download
+     a.download = `${data.hole.holeid}_Lith_Log`
+     a.click()
+}
+
+async function downloadAlt() {
+     const alt = data.alterationlog
+     const csvData = Papa.unparse(alt)
+     const file = new Blob([csvData], {type:'text/csv'})
+     const download = URL.createObjectURL(file)
+
+     const a = document.createElement('a');
+     a.href = download
+     a.download = `${data.hole.holeid}_Alt_Log`
+     a.click()
+}
+
+async function downloadStruc() {
+     const struc = data.structurelog
+     const csvData = Papa.unparse(struc)
+     const file = new Blob([csvData], {type:'text/csv'})
+     const download = URL.createObjectURL(file)
+
+     const a = document.createElement('a');
+     a.href = download
+     a.download = `${data.hole.holeid}_struc_Log`
+     a.click()
+}
+
+async function downloadMin() {
+     const min = data.minerallog
+     const csvData = Papa.unparse(min)
+     const file = new Blob([csvData], {type:'text/csv'})
+     const download = URL.createObjectURL(file)
+
+     const a = document.createElement('a');
+     a.href = download
+     a.download = `${data.hole.holeid}_Min_Log`
+     a.click()
+}
+
 
 </script>
 
@@ -381,24 +431,28 @@ async function uploadMin () {
         <h1 class="title is-4">Lithology</h1>
         <LogTable log={data.lithlog} excludeHeader="index" />
         </div>
+        <button class="button is-success" onclick={() => downloadLith()}>Download</button>
         </div>
         <div class="box mt-2">
         <div class="table-container">
         <h1 class="title is-4">Alteration</h1>
         <LogTable log={data.alterationlog} excludeHeader="index" />
         </div>
+        <button class="button is-success" onclick={() => downloadAlt()}>Download</button>
         </div>
         <div class="box mt-2">
         <div class="table-container">
         <h1 class="title is-4">Structure</h1>
         <LogTable log={data.structurelog} excludeHeader="index" />
         </div>
+        <button class="button is-success" onclick={() => downloadStruc()}>Download</button>
         </div>
         <div class="box mt-2">
         <div class="table-container">
         <h1 class="title is-4">Mineral</h1>
         <LogTable log={data.minerallog} excludeHeader="sampleid" />
         </div>
+        <button class="button is-success" onclick={() => downloadMin()}>Download</button>
         </div>
         </div>
         <div class="column is-5">

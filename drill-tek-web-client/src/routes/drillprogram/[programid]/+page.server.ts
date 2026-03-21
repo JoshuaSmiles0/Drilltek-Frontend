@@ -1,8 +1,9 @@
 import { drilltekService } from "$lib/services/drilltek-service";
 import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
-import type { Session } from "$lib/types/drilltek-types";
+import type { AddDrillhole, Session } from "$lib/types/drilltek-types";
 import { refresh } from "$lib/services/drilltek-utils";
+import Papa from 'papaparse'
 
 
 
@@ -122,5 +123,48 @@ const { session } = await parent();
           }
         }
       }
+    },
+
+    uploadHoles: async({request, params, cookies}) => {
+const cookiestr = cookies.get("drilltekUser")
+      if(cookiestr) {
+        const session = JSON.parse(cookiestr) as Session
+        if(session){
+          const formData = await request.formData()
+          const file = formData.get('fileUpload') as File
+          if(file){
+          const rawCsv = await file.arrayBuffer();
+          console.log(rawCsv)
+          const csvText = new TextDecoder().decode(rawCsv);
+          console.log(csvText)
+          const d = Papa.parse(csvText, {
+            header:true,
+            skipEmptyLines:true
+          })
+          const holes = d.data as AddDrillhole[]
+          holes.forEach(hole => {
+            hole.programid = params.programid
+            hole.userid = session.userid
+          });
+          const response = await drilltekService.uploadHoles(session.accessToken, holes);
+          if(response === 201) {
+            return
+          }
+          else if (response === 401) {
+            const refreshtry = await refresh(session.refreshToken,cookies)
+            if(refreshtry) {
+               const res = await drilltekService.uploadHoles(session.accessToken, holes);
+               if(res === 201) {
+                return
+               }
+               else {
+                redirect(302,"/")
+               }
+            }
+
+          }
+        }
     }
     }
+  }
+}

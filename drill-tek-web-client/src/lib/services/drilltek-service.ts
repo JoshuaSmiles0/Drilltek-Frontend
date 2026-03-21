@@ -234,6 +234,24 @@ export const drilltekService = {
         }
     },
 
+    async uploadHoles(token:string, holes: AddDrillhole[]) {
+        try {
+             axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+             const response = await axios.post(`${this.baseUrl}drillhole/addMultipleDrillholes`, holes)
+             return response.status
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        catch(error: any) {
+            console.log(error)
+            if(error.response.status) {
+            return error.response.status
+            }
+            else {
+                return 500
+            }
+        }
+    },
+
     async getDrillholeById(token:string, id:number) {
         try {
             axios.defaults.headers.common["Authorization"] = "Bearer " +token;
