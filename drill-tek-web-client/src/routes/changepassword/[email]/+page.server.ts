@@ -1,5 +1,5 @@
 import { drilltekService } from '$lib/services/drilltek-service.js';
-import { redirect } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 
 
 
@@ -12,7 +12,11 @@ export const actions = {
         const password = form.get("password") as string;
         const oldPassword = form.get("oldPassword") as string;
         if (email === "" || password === "" || oldPassword === "") {
-            throw redirect(302, "/")
+           throw error(400, {
+                message:"Please Enter All Fields",
+                email:email,
+                status:400,
+            })
         }
         else {
             const success = await drilltekService.setPassword(email,oldPassword,password)
@@ -20,10 +24,18 @@ export const actions = {
                 throw redirect(303, `/login/${email}`)
             }
             else if (success === false) {
-                throw redirect(302, "/")
+               throw error(401,{
+                    message:"Invalid Credentials, Please Try Again",
+                    status:401,
+                    email: email,
+                })
             }
             else {
-                throw redirect(302,"/")
+               throw error(500,{
+                    message:"Unable to process request at this time. Please Try Again",
+                    email:email,
+                    status:500
+                })
             }
         }
     },
