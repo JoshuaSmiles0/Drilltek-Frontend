@@ -271,6 +271,35 @@ export const drilltekService = {
     },
 
     /**
+     * API method for deleting drill program by id. Takes access token as param as protected
+     * api route. Takes program id as param to be used as param in api call. Returns status
+     * if successful or caught error. Returns 500 for uncaught error. 
+     * @param token 
+     * @param id 
+     * @returns number
+     */
+    async deleteProgram(token:string, programid:string) {
+               try {
+             axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+             const response = await axios.delete(`${this.baseUrl}drillProgram/deleteProgram`,
+                {
+                    params:{programid:programid}
+                }
+            )
+             return response.status
+        }
+        catch(error: any) {
+            console.log(error)
+            if(error.response.status) {
+            return error.response.status
+            }
+            else {
+                return 500
+            }
+        }
+    },
+
+    /**
      * API method for retrieving drillholes by programid. Takes an access token as 
      * parameter as protected API route. Takes programid for use as param in api call.
      * Returns an array of drillhole objects if successful or an empty array if not
@@ -408,6 +437,35 @@ export const drilltekService = {
             return response.status
         }
             catch(error: any) {
+            console.log(error)
+            if(error.response.status) {
+            return error.response.status
+            }
+            else {
+                return 500
+            }
+        }
+    },
+
+    /**
+     * API method for deleting drillhole by id. Takes access token as param as protected
+     * api route. Takes hole id as param to be used as param in api call. Returns status
+     * if successful or caught error. Returns 500 for uncaught error. 
+     * @param token 
+     * @param id 
+     * @returns number
+     */
+    async deleteDrillhole(token:string, id:number) {
+               try {
+             axios.defaults.headers.common["Authorization"] = "Bearer " +token;
+             const response = await axios.delete(`${this.baseUrl}drillhole/deleteDrillhole`,
+                {
+                    params:{holeid:id}
+                }
+            )
+             return response.status
+        }
+        catch(error: any) {
             console.log(error)
             if(error.response.status) {
             return error.response.status
