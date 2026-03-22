@@ -75,6 +75,40 @@ const { session } = await parent();
         }
       },
 
+      deleteProgram: async({request,cookies, params}) => {
+        const cookiestr = cookies.get("drilltekUser")
+        if(cookiestr){
+          const session = JSON.parse(cookiestr) as Session
+          if(session){
+            const id = params.programid
+            console.log(id)
+            const response = await drilltekService.deleteProgram(session.accessToken, id)
+              if(response === 200) {
+              redirect(302,"/drillingportal")
+            }
+            else if (response === 401) {
+              const refreshtry = await refresh(session.refreshToken,cookies)
+              if(refreshtry) {
+                 const res = await drilltekService.deleteProgram(session.accessToken, id)
+                 if(res === 200) {
+                  redirect(302,"/drillingportal")
+                 }
+                 else {
+                  redirect(302,"/logout")
+                 }
+              }
+            }
+            else {
+              throw error(400,{
+                  message:"unable to delete program at this time ",
+                  status:400,
+                  programid:params.programid
+              })
+            }
+          }
+        }
+      },
+
       addDrillhole: async({request, params, cookies}) => {
       const cookiestr = cookies.get("drilltekUser")
       if(cookiestr) {

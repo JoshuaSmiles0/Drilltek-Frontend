@@ -15,27 +15,46 @@
     let alteration = $state(false);
     let mineral = $state(false);
     let overview = $state(false);
+    //states controlling message display
     let success = $state(false);
     let error = $state(false);
+    // states controlling message to be displayed
     let successMessage = $state("");
     let errorMessage = $state("")
-    let lithlog = $state(data.lithlog || [{index:Math.random(), start:0, end:0, lithcode:"", comment:"", holeid:data.hole.holeid, userid:data.session.userid}])
-    let altlog = $state(data.alterationlog || [{index:Math.random(), start:0, end:0, alterationcode:"", comment:"", holeid:data.hole.holeid, userid:data.session.userid}])
-    let struclog = $state(data.structurelog || [{index:Math.random(), start:0, end:0, structurecode:"", comment:"", dip:0, holeid:data.hole.holeid, userid:data.session.userid}])
-    let minlog = $state(data.minerallog || [{sampleid:Math.random().toString(), start:0, end:0, estimate:0,comment:"", sampletype:"SAMPLE", texture:"D", holeid:data.hole.holeid, userid:data.session.userid }])
-
+    // states controlling what is initially displayed in log forms, either data retrieved or if this does not yet exist contains a blank row for display. state used for rendering list
+    // svelte-ignore state_referenced_locally
+        let lithlog = $state(data.lithlog || [{index:Math.random(), start:0, end:0, lithcode:"", comment:"", holeid:data.hole.holeid, userid:data.session.userid}])
+    // svelte-ignore state_referenced_locally
+        let altlog = $state(data.alterationlog || [{index:Math.random(), start:0, end:0, alterationcode:"", comment:"", holeid:data.hole.holeid, userid:data.session.userid}])
+    // svelte-ignore state_referenced_locally
+        let struclog = $state(data.structurelog || [{index:Math.random(), start:0, end:0, structurecode:"", comment:"", dip:0, holeid:data.hole.holeid, userid:data.session.userid}])
+    // svelte-ignore state_referenced_locally
+        let minlog = $state(data.minerallog || [{sampleid:Math.random().toString(), start:0, end:0, estimate:0,comment:"", sampletype:"SAMPLE", texture:"D", holeid:data.hole.holeid, userid:data.session.userid }])
+    // Controls active button on navbar, lith as default
     let active = $state("Lith")
 
-    const graphVals = lithlog.map((log) => ({
+    // Graph values for frappe chart displayed on overview page. 
+    // name represents lithcode. Thickness of bar represents length of 
+    // log interval obtained by subtracting start depth from end depth for interval
+    // svelte-ignore state_referenced_locally
+        const graphVals = lithlog.map((log) => ({
         name: log.lithcode,
         values: [log.end - log.start]
     }))
 
+    // constructred data for graph
    const graphD = {
-    labels:[data.hole.holeid],
+    // eslint-disable-next-line svelte/no-unused-svelte-ignore
+    // svelte-ignore state_referenced_locally
+        labels:[data.hole.holeid],
     datasets:graphVals
    }
 
+   /* Functions controlling display of the different tabs on the page. Sets the desired 
+   page state to true so that it is the only one displayed. Sets the active attribute to the
+   corresponding page so button on navbar renders active. Purges any errors or successes so 
+   these disappear from prev tab
+   */
     const showOverview = () => {
     overview = true
     lith = false
@@ -101,6 +120,12 @@
     successMessage = ""
 }
 
+
+/*
+functions for adding new rows to form display which input is then bound to. Adds a new record
+to log state which forms are bound to so rerenders component
+*/
+
 const addLith = () => {
     const last = lithlog.at(-1)
     lithlog = [... lithlog,{index:Math.random(), start:last.end, end:null, lithcode:"", comment:"", holeid:data.hole.holeid, userid:data.session.userid}]
@@ -129,6 +154,8 @@ const addMin = () => {
     minlog = [... minlog,{sampleid:newId, start:last.end, end:null, estimate:null,comment:"", sampletype:"SAMPLE", texture:"D", holeid:data.hole.holeid, userid:data.session.userid }]
 }
 
+// Functions for removing a row from from display. Works as above but filters out deleted index
+
 const deleteMin = (sampleid: string) => {
     minlog = minlog.filter((min) => min.sampleid !== sampleid)
 }
@@ -146,8 +173,10 @@ const deleteAlt = (index : number) => {
 }
 
 
-// Does not work as intended, always displays lithlog uploaded. Error with sveltekit 
-// to be fixed 
+/* Does not work as intended, always displays lithlog uploaded. Error with sveltekit
+to be fixed. Triggers server upload by assembling new form data from desired log state
+and sends request to server action using axios 
+*/ 
 async function uploadLith () {
     const formData = new FormData()
     formData.append('lithLog', JSON.stringify(lithlog))
@@ -219,6 +248,13 @@ async function uploadMin () {
     }
 }
 
+/*
+ Functions for downloading logs as csvs triggered with buttons on tables in overview tab
+ uses papa to create a csv string from array of log objects. Creates new csv blob from this
+ with an associated object url pointing to this. False anchor created on dom tree with object
+ url appended and download attribute appended. Anchor then clicked programatically to trigger
+ download of csv object with file name 
+*/
 async function downloadLith() {
      const lith = data.lithlog
      const csvData = Papa.unparse(lith)

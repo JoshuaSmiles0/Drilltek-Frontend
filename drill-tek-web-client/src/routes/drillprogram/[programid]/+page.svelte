@@ -4,12 +4,12 @@ import Banner from "$lib/ui/banner.svelte";
 	import Modal from "$lib/ui/modal.svelte";
 	import SearchBar from "$lib/ui/searchBar.svelte";
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let { data }: any = $props();
 
     let editProgramModal = $state(false)
     let addDrillholeModal = $state(false)
     let uploadDrillholeModal = $state(false)
+    let deleteProgramModal = $state(false)
     let search = $state() as number
 
 let filteredHoles = $derived(
@@ -57,6 +57,7 @@ function clearSearch() {
         </tbody>
      </table>
      <Modal boolean={editProgramModal} type="editProgram" verb="Edit" formData={data.program} title="Please edit then submit your program details" action="Submit" />
+     <Modal boolean={deleteProgramModal} type="deleteProgram" verb="Delete" formData={data.program.programid} title="Are you sure you want to delete program" action="Delete" />
 </div>
 
 <h1 class="title is-3">Drillholes:</h1>

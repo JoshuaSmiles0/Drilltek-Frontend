@@ -4,6 +4,16 @@ import { drilltekService } from "./drilltek-service"
 import type { Cookies } from "@sveltejs/kit"
 import type { AddAlterationLog, AddLithLog,  AddStructureLog,  Session } from "$lib/types/drilltek-types";
 
+
+/**
+ * Utility function for refreshing access token if expired using users refresh token
+ * Takes a refresh token and passed down Sveltekit cookie object. If refresh successful
+ * using drilltek service method , resets the sessions cookie with new access token and 
+ * also returns the new session for use in retry attempts. If any other outcome returns null
+ * @param token 
+ * @param cookies 
+ * @returns Session || null
+ */
 export async function refresh(token:string|null, cookies:Cookies) {
 try {
    const newAccess = await drilltekService.refreshToken(token)
@@ -33,6 +43,13 @@ try {
         return null
     }}
 
+/**
+ * Utility function for assigning lithtype to objects in an array of lithlogs containing
+ * lithcodes only. takes lithlog array as param and iterates over this. Switch statement
+ * assigns code to each object based on value of lithcode and then returns altered array
+ * @param lithlog 
+ * @returns AddLithLog[]
+ */
 export function setLithType(lithlog:AddLithLog[]) {
     lithlog.forEach(log => {
         const code = log.lithcode
@@ -105,6 +122,13 @@ export function setLithType(lithlog:AddLithLog[]) {
     return lithlog as AddLithLog[]
 }
 
+/**
+ * Utility function for assigning alterationtype to objects in an array of altlogs containing
+ * altcodes only. takes altlog array as param and iterates over this. Switch statement
+ * assigns code to each object based on value of altcode and then returns altered array
+ * @param alterationlog
+ * @returns AddAlterationLog[]
+ */
 export function setAlterationType(alterationlog:AddAlterationLog[]) {
     alterationlog.forEach(log => {
         const code = log.alterationcode
@@ -168,6 +192,13 @@ export function setAlterationType(alterationlog:AddAlterationLog[]) {
     return alterationlog as AddAlterationLog[]
 }
 
+/**
+ * Utility function for assigning structuretype to objects in an array of struclogs containing
+ * struccodes only. takes struclog array as param and iterates over this. Switch statement
+ * assigns code to each object based on value of struccode and then returns altered array
+ * @param structurelog
+ * @returns AddStructureLog[]
+ */
 export function setStructureType(structurelog:AddStructureLog[]) {
     structurelog.forEach(log => {
         const code = log.structurecode

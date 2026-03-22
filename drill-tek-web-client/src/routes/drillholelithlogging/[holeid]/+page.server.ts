@@ -7,7 +7,12 @@ import { refresh, setAlterationType, setLithType, setStructureType } from "$lib/
 
 
 
-
+/*
+Page load for logging page. Not just lithology logging as this functions like a semi 
+SPA. On load checks if layout passes session. If session present attempts to load 
+hole details and all associated logs from api to return these to page. if no session present
+redirects to logout 
+*/
 export const load: PageServerLoad = async ({ parent, params }) => {
 const { session } = await parent();
   if (session) {
@@ -40,6 +45,17 @@ const { session } = await parent();
 
 
   export const actions = {
+
+    /*
+    Similar pattern for all uploading of logs functions below. first retrieves session from 
+    cookie. Once extracted, retrieves log as string from form posted using axios. log string
+    then parsed as log[]. Log passed through associated logtype utility to append logtype to 
+    each item on the array. Retrieves holeid from page params for api requests. First attempts
+    to delete the existing log, if successful attempts to add the new log using the api. Code 
+    length here related to having to reattempt these functions after a token refresh if they 
+    fail with a 401. success messages returned at each opportunity to control display of messages
+    on page. 
+    */
         uploadLith:async({request, cookies, params}) => {
           const cookiestr = cookies.get("drilltekUser")
       if(cookiestr) {

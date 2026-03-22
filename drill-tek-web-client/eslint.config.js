@@ -26,6 +26,7 @@ export default defineConfig(
 			'no-undef': 'off',
 			"svelte/no-navigation-without-resolve": "off",
 			"@typescript-eslint/no-explicit-any": "off",
+			"@typescript-eslint/no-unused-vars": "off"
 		}
 	},
 	{

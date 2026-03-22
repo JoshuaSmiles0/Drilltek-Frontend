@@ -6,6 +6,9 @@ const api = axios.create({
     baseURL:"http://localhost:8000/api/",
 });
 
+// Abandoned axios interceptor not used for refreshing token as app is SSR focused. Would be
+// To use if requests done in client pages so remaining in
+
 if (typeof window !== 'undefined') {
 api.interceptors.response.use(
     (reponse) => reponse,
@@ -24,7 +27,8 @@ api.interceptors.response.use(
                             const session: Session = {
                             email: cookiestr.email,
                             accessToken: data,
-                            refreshToken: cookiestr.refresh
+                            refreshToken: cookiestr.refresh,
+                            userid: cookiestr.userid
                              };
                              const newCookieStr = JSON.stringify(session)
                              const expires = new Date(Date.now() + 60 * 60 * 24 * 7 * 1000).toUTCString();

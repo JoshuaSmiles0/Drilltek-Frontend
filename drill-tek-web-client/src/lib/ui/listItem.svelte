@@ -1,5 +1,11 @@
 <script>
 
+/*
+data prop represents data to be rendered in list component. Type defines 
+if data passed is a program or drillhole. Subtype defines buttons rendered 
+with each object as link different depending on if in the logging portal area
+or drilling portal area 
+*/
    let {type, subtype, data} = $props()
 
 </script>

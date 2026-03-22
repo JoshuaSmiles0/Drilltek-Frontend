@@ -1,9 +1,17 @@
 <script lang="ts">
 
+/*
+Takes log as prop as data to be rendered. Exlude header used to exclude a specific header
+from the log data. 
+*/
     const {log, excludeHeader} = $props()
+    // Isolating log row to construct log headers array
+    // svelte-ignore state_referenced_locally
     const logheaders = log[0]
+    // Constructing headers for table based on keys of log object input 
     const headers = logheaders ? Object.keys(logheaders) : []
-    const exclude = excludeHeader
+    // svelte-ignore state_referenced_locally
+        const exclude = excludeHeader
 
 </script>
 

@@ -1,6 +1,11 @@
 <script lang="ts">
 
-
+/*
+props for component. Log represents array of log objects to be bound to associated state
+so that log list updates as user fills in fields below. Logtype used to conditionally render
+formfields based on the type of log passed in (lith, alt, struc or min). Logdelete represents
+delete function passed in for deleting record of specified type.
+*/
 let {log = $bindable(), logtype, logDelete} = $props()
 
 
