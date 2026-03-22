@@ -1,5 +1,5 @@
 import { drilltekService } from "$lib/services/drilltek-service";
-import { redirect } from "@sveltejs/kit";
+import { error, redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import type { AddDrillhole, Session } from "$lib/types/drilltek-types";
 import { refresh } from "$lib/services/drilltek-utils";
@@ -60,12 +60,16 @@ const { session } = await parent();
                   return
                  }
                  else {
-                  redirect(302,"/")
+                  redirect(302,"/logout")
                  }
               }
             }
             else {
-              return
+              throw error(400,{
+                  message:"unable to Edit program at this time ",
+                  status:400,
+                  programid:params.programid
+              })
             }
           }
         }
@@ -114,12 +118,16 @@ const { session } = await parent();
                 return
                }
                else {
-                redirect(302,"/")
+                redirect(302,"/logout")
                }
             }
           }
           else {
-            return
+                  throw error(400,{
+                  message:"unable to add drillhole at this time ",
+                  status:400,
+                  programid:params.programid
+              })
           }
         }
       }
@@ -158,11 +166,25 @@ const cookiestr = cookies.get("drilltekUser")
                 return
                }
                else {
-                redirect(302,"/")
+                redirect(302,"/logout")
                }
             }
 
           }
+          else {
+                  throw error(400,{
+                  message:"unable to upload holes at this time ",
+                  status:400,
+                  programid:params.programid
+              })
+          }
+        }
+        else {
+                  throw error(400,{
+                  message:"unable to upload holes at this time ",
+                  status:400,
+                  programid:params.programid
+              })
         }
     }
     }

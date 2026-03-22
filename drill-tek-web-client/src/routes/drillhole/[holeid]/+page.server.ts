@@ -1,5 +1,5 @@
 import { drilltekService } from "$lib/services/drilltek-service";
-import { redirect } from "@sveltejs/kit";
+import { error, redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import type { Session } from "$lib/types/drilltek-types";
 import { refresh } from "$lib/services/drilltek-utils";
@@ -75,12 +75,16 @@ const { session } = await parent();
                     return
                    }
                    else {
-                    redirect(302,"/")
+                    redirect(302,"/logout")
                    }
                 }
               }
               else {
-                return
+                throw error(400,{
+                    message:"unable to update drillhole ",
+                    holeid: currentID,
+                    status:400
+                })
               }
             }
           }

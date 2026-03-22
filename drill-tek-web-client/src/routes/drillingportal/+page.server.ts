@@ -1,4 +1,4 @@
-import { redirect } from "@sveltejs/kit";
+import { error, redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "../$types";
 import { drilltekService } from "$lib/services/drilltek-service";
 import type { Session } from "$lib/types/drilltek-types.js";
@@ -54,12 +54,15 @@ const { session } = await parent();
                 return
                }
                else {
-                redirect(302,"/")
+                redirect(302,"/logout")
                }
             }
           }
           else {
-            return
+             throw error(400,{
+                                message:"unable to Add program at this time ",
+                                status:400
+                            })
           }
         }
       }
