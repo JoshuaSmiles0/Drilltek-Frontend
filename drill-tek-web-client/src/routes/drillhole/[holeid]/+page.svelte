@@ -5,7 +5,7 @@
 // Data passed from server for rendering
  let { data }: any = $props();
 
-// State for controlling modal passed to modal
+// State for controlling modals passed to modal
 let editDrillholeModal = $state(false)
 let deleteDrillholeModal = $state(false)
 

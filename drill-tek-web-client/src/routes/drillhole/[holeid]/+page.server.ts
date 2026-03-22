@@ -104,6 +104,15 @@ const { session } = await parent();
             }
           }
         },
+
+    /*
+    Server action for deleting drillhole. First checks if cookie present and wraps into 
+    session object for use in API call. obtains holeid from params and programid from 
+    form data. Attempts api request to delete hole using access token from session and 
+    holeid. If successful redirects user to associated program page. If unsuccessful but
+    404 response, tries again and logs out if refresh fails, else throws 400 error and redirects
+    user to error page
+    */
     deleteDrillhole: async({request,cookies, params}) => {
         const cookiestr = cookies.get("drilltekUser")
         if(cookiestr){

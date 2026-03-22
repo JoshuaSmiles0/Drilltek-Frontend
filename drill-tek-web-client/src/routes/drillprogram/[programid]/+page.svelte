@@ -6,20 +6,26 @@ import Banner from "$lib/ui/banner.svelte";
 
     let { data }: any = $props();
 
+    // States for controlling modal visibility
     let editProgramModal = $state(false)
     let addDrillholeModal = $state(false)
     let uploadDrillholeModal = $state(false)
     let deleteProgramModal = $state(false)
-    let search = $state() as number
+    // State linked to searchbar value
+    let search = $state()
 
-let filteredHoles = $derived(
-  search
-    ? data.holes.filter(hole => 
-        hole.holeid === search
-      )
-    : data.holes
-);
-
+    // Derived state representing holes filtered down by search. When search changes 
+    // hole data passed by server filtered down to those that include the search value 
+    // In their holeid. If search does not match, whole set displayed with no filtering
+    let filteredHoles = $derived(
+    search
+        ? data.holes.filter(hole => 
+            hole.holeid === search
+        )
+        : data.holes
+    );
+    
+// Clears search state
 function clearSearch() {
 	search = ""
 }
