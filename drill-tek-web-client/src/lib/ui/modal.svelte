@@ -5,12 +5,23 @@
 	import ProgramForm from "./programForm.svelte";
 	import UploadFile from "./uploadFile.svelte";
 
+    /*
+    props required for function. Boolean passed in from parent and bound to functions 
+    below for turning the modal on and off. Type used as condition for what to render
+    inside the modal. verb used for what is displayed on button on the parent page
+    that is the only visible expression of this component when it is off. formData used 
+    for conditional rendered sub components that require data to be passed to them (edit 
+    components for prepopulating fields). Title used for title on modal and action used for 
+    action button required in some modals conditionally rendered. 
+    */
     let {boolean=$bindable(), type, verb, formData, title, action} = $props()
 
+    // Function for toggling modal on controlled by boolean value
     const showModal = () => {
  boolean = true
 }
 
+// Function for toggling modal off, controlled by boolean value
 const hideModal = () => {
     boolean = false
 }
@@ -71,7 +82,26 @@ const hideModal = () => {
                     <UploadFile/>
                     <button class="button is-success"> {action} </button>
                     </form>
-                    
+                    {/if}
+                    {#if type === "deleteProgram"}
+                    <form method="post" action="?/deleteProgram">
+                       <input type="hidden" value={formData} name="deleteProgram"/>
+                       <div class="columns">
+                        <div class="column is-1 is-offset-5">
+                           <button class="button is-danger">{action}</button>
+                        </div>
+                       </div>
+                    </form>
+                    {/if}
+                    {#if type === "deleteDrillhole"}
+                    <form method="post" action="?/deleteDrillhole">
+                       <input type="hidden" value={formData} name="deleteDrillhole"/>
+                       <div class="columns">
+                        <div class="column is-1 is-offset-5">
+                           <button class="button is-danger">{action}</button>
+                        </div>
+                       </div>
+                    </form>
                     {/if}
                     </div>
                     <div class="modal-card-foot"></div>

@@ -2,6 +2,13 @@ import { drilltekService } from "$lib/services/drilltek-service";
 import type { Session } from "$lib/types/drilltek-types";
 import type { LayoutServerLoad } from "./$types";
 
+/*
+Layout server load for application. Obtains cookie for page load. 
+Attempts to test the access token before returning to ascertain if an 
+access token refresh is required. If test endpoint contacted successfully 
+, returns cookie details as session, else will attempt to refresh the access
+token and reset cookie with new access token.
+*/
 export const load: LayoutServerLoad = async ({ cookies, fetch }) => { 
   const cookieStr = cookies.get("drilltekUser") as string;
   

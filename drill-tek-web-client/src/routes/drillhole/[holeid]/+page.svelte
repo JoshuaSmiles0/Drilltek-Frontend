@@ -2,14 +2,16 @@
 	import Banner from "$lib/ui/banner.svelte";
 	import Modal from "$lib/ui/modal.svelte";
 
- // eslint-disable-next-line @typescript-eslint/no-explicit-any
+// Data passed from server for rendering
  let { data }: any = $props();
 
+// State for controlling modals passed to modal
 let editDrillholeModal = $state(false)
+let deleteDrillholeModal = $state(false)
 
 </script>
 
-<Banner title="DDH-{data.drillhole.holeid}" buttonName={data.drillhole.programid} link="/drillprogram/{data.drillhole.programid}" />
+<Banner title="DDH-{data.drillhole.holeid}" buttonName={data.drillhole.programid} link="/drillprogram/{data.drillhole.programid}" email={data.email} />
 <div class="box mt-4">
      <h1 class="title is-3">Details:</h1>
      <table class="table is-bordered is-hoverable is-fullwidth mb-6">
@@ -52,5 +54,6 @@ let editDrillholeModal = $state(false)
         </tbody>
      </table>
     <Modal boolean={editDrillholeModal} type="editDrillhole" verb="Edit" formData={data.drillhole} title="Please edit then submit your drillhole details" action="submit" />
+    <Modal boolean={deleteDrillholeModal} type="deleteDrillhole" verb="Delete" formData={data.drillhole.programid} title="Are you sure you want to delete Drillhole" action="Delete" />
 </div>
 

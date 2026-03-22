@@ -1,6 +1,13 @@
 <script>
 
+/*
+Component used on all password forms. Setpassword boolean passed in defines if this is
+the set password page or another form. Only displays password weakness graphic if on the 
+set password page as set password would be passed in true for this. 
+*/
   const {setPassword} = $props()
+
+  // Password state created to control rendering of password length graphics conditionally
   let password = $state("")
 
 </script>

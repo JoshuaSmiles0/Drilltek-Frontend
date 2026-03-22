@@ -3,6 +3,10 @@ import { drilltekService } from "$lib/services/drilltek-service";
 
 export const actions = {
 
+    /*
+    Check user server action. checks if user is a first time login and 
+    redirects to change password route if so, else, redirects the user to login
+    */
     checkUser: async({ request }) => {
         const form = await request.formData();
         const email = form.get("email") as string
