@@ -1,6 +1,8 @@
 
 <script lang="ts">
 
+    /* Props for banner title, return link for previous page, button name for text on button
+     And email for change password link on hero nav*/
     let {title, link, buttonName, email} = $props()
     
 </script>
