@@ -1,6 +1,9 @@
                          
  <script>
   
+   /*
+ program prop passed in to define display values when component is opened
+  */
    let {program} = $props()
 
  </script>                        

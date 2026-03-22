@@ -1,6 +1,11 @@
 <script lang="ts">
-
+/*
+Hole taken in as prop for details to be rendered in table
+*/
 let {hole} = $props()
+/* headers array created from keys of hole object using object.keys(). Returns empty array
+ If cannot*/
+// svelte-ignore state_referenced_locally
 const headers = hole ? Object.keys(hole) : []
 
 </script>

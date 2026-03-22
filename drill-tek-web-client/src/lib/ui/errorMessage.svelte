@@ -1,5 +1,9 @@
 
 <script>
+
+/*
+error message and error status to be passed into component for useage
+*/
     let {message, status} = $props()
 </script>
 

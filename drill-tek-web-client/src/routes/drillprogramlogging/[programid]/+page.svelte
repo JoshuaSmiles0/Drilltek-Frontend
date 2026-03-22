@@ -4,10 +4,14 @@
 	import SearchBar from "$lib/ui/searchBar.svelte";
 
 
- // eslint-disable-next-line @typescript-eslint/no-explicit-any
- let { data }: any = $props();
-   let search = $state() as number
 
+ let { data }: any = $props();
+ // State linked to searchbar value
+   let search = $state()
+
+// Derived state representing holes filtered down by search. When search changes 
+// hole data passed by server filtered down to those that include the search value 
+// In their holeid. If search does not match, whole set displayed with no filtering
 let filteredHoles = $derived(
   search
     ? data.holes.filter(hole => 
@@ -16,6 +20,7 @@ let filteredHoles = $derived(
     : data.holes
 );
 
+// Clears search state
 function clearSearch() {
 	search = ""
 }

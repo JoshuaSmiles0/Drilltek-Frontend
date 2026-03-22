@@ -1,5 +1,8 @@
 <script>
   
+  /*
+  Drillhole prop passed in to define display values when component is opened
+  */
    let {drillhole} = $props()
 
  </script>    

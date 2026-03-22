@@ -1,7 +1,7 @@
 <script>
 	import Modal from "$lib/ui/modal.svelte";
 
-
+// Controls modal visibility
 let login = $state(false)
 
 </script>

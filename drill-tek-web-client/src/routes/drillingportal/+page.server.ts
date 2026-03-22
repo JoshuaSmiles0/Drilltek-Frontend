@@ -6,7 +6,10 @@ import { refresh } from "$lib/services/drilltek-utils.js";
 
 
 
-
+/*
+Page load function. Attempts to derive session from parent layout. If successful
+attemptes to retrieve programs from api. Returns programs and session to view
+*/
 export const load: PageServerLoad = async ({ parent }) => {
 const { session } = await parent();
   if (session) {
@@ -27,6 +30,12 @@ const { session } = await parent();
 
   export const actions = {
 
+    /*
+    Add program server action. checks if session present. If so constructs a program
+    object from passed form data then attempts to call API endpoint. If successful returns
+    to page. If unsuccessful but 401 code returned, attempts to refresh and try again. If other 
+    error, throws error to redirect user to error page to try again
+    */
     addProgram: async({request, cookies}) => {
       const cookiestr = cookies.get("drilltekUser")
       if(cookiestr) {

@@ -1,6 +1,12 @@
 <script>
 
-
+/*
+props requried for component to work. Search represents typed searchbar value bound to a 
+state in parent component which changes value of list array and therefore what is displayed
+in list component on parent page. clear represents passed in clear function from parent which
+clears the search value and resets the list. type differentiates between a program or hole list.
+component this is controlling
+*/
 let {search = $bindable(),  clear, type} = $props()
 
 

@@ -3,6 +3,12 @@ import axios from 'axios';
 import type { PageServerLoad } from '../$types';
 import { redirect } from '@sveltejs/kit';
 
+/*
+on load returns session from parent. First attempts to blacklist api token using 
+associated endpoint. If blacklist successful removes token from axios auth headers
+and deletes cookie, redirecting to landing page. If unsuccessful redirects to main portal
+for user to try again
+*/
 export const load: PageServerLoad = async ({ parent, cookies }) => {
     const { session } = await parent();
   if (session) {

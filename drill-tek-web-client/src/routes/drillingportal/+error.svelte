@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import ErrorMessage from '$lib/ui/errorMessage.svelte';
-
-    
 </script>
 
 

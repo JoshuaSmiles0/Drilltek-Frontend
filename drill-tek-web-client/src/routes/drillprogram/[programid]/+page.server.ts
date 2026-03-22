@@ -6,7 +6,10 @@ import { refresh } from "$lib/services/drilltek-utils";
 import Papa from 'papaparse'
 
 
-
+/*
+Page load function. Retrieves session from parent layout. retrieves drillprogram from 
+api and user email passing userid from session. Returns these as data to page
+*/
 export const load: PageServerLoad = async ({ parent, params }) => {
 const { session } = await parent();
   if (session) {
@@ -35,6 +38,10 @@ const { session } = await parent();
 
   export const actions = {
   
+    /*
+    Editprogram server action. See drillhole/holeid route for explaination, similar 
+    logic and structure
+    */
       editProgram: async({request, cookies, params}) => {
         const cookiestr = cookies.get("drilltekUser")
         if(cookiestr) {
@@ -75,6 +82,48 @@ const { session } = await parent();
         }
       },
 
+    /*
+    deleteprogram server action. See drillhole/holeid route for explaination, similar 
+    logic and structure
+    */
+      deleteProgram: async({request,cookies, params}) => {
+        const cookiestr = cookies.get("drilltekUser")
+        if(cookiestr){
+          const session = JSON.parse(cookiestr) as Session
+          if(session){
+            const id = params.programid
+            console.log(id)
+            const response = await drilltekService.deleteProgram(session.accessToken, id)
+              if(response === 200) {
+              redirect(302,"/drillingportal")
+            }
+            else if (response === 401) {
+              const refreshtry = await refresh(session.refreshToken,cookies)
+              if(refreshtry) {
+                 const res = await drilltekService.deleteProgram(session.accessToken, id)
+                 if(res === 200) {
+                  redirect(302,"/drillingportal")
+                 }
+                 else {
+                  redirect(302,"/logout")
+                 }
+              }
+            }
+            else {
+              throw error(400,{
+                  message:"unable to delete program at this time ",
+                  status:400,
+                  programid:params.programid
+              })
+            }
+          }
+        }
+      },
+
+    /*
+    AddDrillhole server action. See drilling portal route for explaination, similar 
+    logic and structure
+    */
       addDrillhole: async({request, params, cookies}) => {
       const cookiestr = cookies.get("drilltekUser")
       if(cookiestr) {
@@ -133,8 +182,19 @@ const { session } = await parent();
       }
     },
 
+    /*
+    server action for uploading holes as .csv. retrieves session from cookie
+    retrieves file submitted in from from formdata as file. uses file.arraybuffer
+    to convert the contents of the file to binary data then uses a text decoder to 
+    convert the binary to a csv string. Papa.parse then used to convert csv string
+    into array of objects. Array of objects iterated over to append program and user
+    id to each object required for committing data. Then attempts to upload array of 
+    holes over api. If successful returns to page, if unsuccessful but 404 returned, 
+    retries request. If retry fails, redirects user to logout. If other errors produced
+    errors thrown and user redirected to error page
+    */
     uploadHoles: async({request, params, cookies}) => {
-const cookiestr = cookies.get("drilltekUser")
+      const cookiestr = cookies.get("drilltekUser")
       if(cookiestr) {
         const session = JSON.parse(cookiestr) as Session
         if(session){

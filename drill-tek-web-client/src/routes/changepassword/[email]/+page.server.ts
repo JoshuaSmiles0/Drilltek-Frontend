@@ -5,6 +5,13 @@ import { error, redirect } from '@sveltejs/kit';
 
 export const actions = {
 
+    /*
+    change password server action for change password page
+    takes password and oldpassword from form data and email from page params
+    if any are blank throws a 400 coded error and redirects to route error page
+    If login successful redirects to login page, else throws appropriate error
+    and redirects to error page with associated error
+    */
     changePassword: async({request, params}) => {
         const form = await request.formData();
         const email =  params.email as string;
