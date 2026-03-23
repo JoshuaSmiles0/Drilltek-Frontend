@@ -1,10 +1,11 @@
 import type { Session, DrillProgram, AddProgram, editProgram, Drillhole, AddDrillhole, EditDrillhole, Lithlog, Alterationlog, Structurelog, Minerallog, AddLithLog, AddAlterationLog, AddStructureLog, AddMineralLog } from "$lib/types/drilltek-types"
 import axios from "axios";
+import {BASE_API_URL} from '$env/static/private';
 
 // Service object containing all methods for working with Drilltek Backend
 export const drilltekService = {
     //To be replaced before deployment
-    baseUrl:"http://localhost:8000/api/",
+    baseUrl:BASE_API_URL,
 
     /**
      * For checking if user is logging in to api for the 
